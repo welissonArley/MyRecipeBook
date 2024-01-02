@@ -6,6 +6,7 @@ using MyRecipeBook.Domain.Repositories;
 using MyRecipeBook.Domain.Repositories.User;
 using MyRecipeBook.Infrastructure.DataAccess;
 using MyRecipeBook.Infrastructure.DataAccess.Repositories;
+using MyRecipeBook.Infrastructure.Extensions;
 
 namespace MyRecipeBook.Infrastructure;
 
@@ -13,11 +14,9 @@ public static class DependencyInjectionExtension
 {
     public static void AddInfrastructure(this IServiceCollection services, IConfiguration configurarion)
     {
-        var databaseType = configurarion.GetConnectionString("DatabaseType");
+        var databaseType = configurarion.DatabaseType();
 
-        var databaseTypeEnum = (DatabaseType)Enum.Parse(typeof(DatabaseType), databaseType!);
-
-        if (databaseTypeEnum == DatabaseType.MySql)
+        if (databaseType == DatabaseType.MySql)
             AddDbContext_MySqlServer(services, configurarion);
         else
             AddDbContext_SqlServer(services, configurarion);
@@ -27,7 +26,7 @@ public static class DependencyInjectionExtension
 
     private static void AddDbContext_MySqlServer(IServiceCollection services, IConfiguration configurarion)
     {
-        var connectionString = configurarion.GetConnectionString("ConnectionMySQLServer");
+        var connectionString = configurarion.ConnetionString();
         var serverVersion = new MySqlServerVersion(new Version(8, 0, 35));
 
         services.AddDbContext<MyRecipeBookDbContext>(dbContextOptions =>
@@ -38,7 +37,7 @@ public static class DependencyInjectionExtension
 
     private static void AddDbContext_SqlServer(IServiceCollection services, IConfiguration configurarion)
     {
-        var connectionString = configurarion.GetConnectionString("ConnectionSQLServer");
+        var connectionString = configurarion.ConnetionString();
 
         services.AddDbContext<MyRecipeBookDbContext>(dbContextOptions =>
         {
