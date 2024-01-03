@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using FluentMigrator.Runner;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MyRecipeBook.Domain.Enums;
@@ -7,6 +8,7 @@ using MyRecipeBook.Domain.Repositories.User;
 using MyRecipeBook.Infrastructure.DataAccess;
 using MyRecipeBook.Infrastructure.DataAccess.Repositories;
 using MyRecipeBook.Infrastructure.Extensions;
+using System.Reflection;
 
 namespace MyRecipeBook.Infrastructure;
 
@@ -17,9 +19,15 @@ public static class DependencyInjectionExtension
         var databaseType = configurarion.DatabaseType();
 
         if (databaseType == DatabaseType.MySql)
+        {
             AddDbContext_MySqlServer(services, configurarion);
+            AddFluentMigrator_MySql(services, configurarion);
+        }
         else
+        {
             AddDbContext_SqlServer(services, configurarion);
+            AddFluentMigrator_SqlServer(services, configurarion);
+        }
 
         AddRepositories(services);
     }
@@ -51,5 +59,31 @@ public static class DependencyInjectionExtension
 
         services.AddScoped<IUserWriteOnlyRepository, UserRepository>();
         services.AddScoped<IUserReadOnlyRepository, UserRepository>();
+    }
+
+    private static void AddFluentMigrator_MySql(IServiceCollection services, IConfiguration configurarion)
+    {
+        var connectionString = configurarion.ConnetionString();
+
+        services.AddFluentMigratorCore().ConfigureRunner(options =>
+        {
+            options
+            .AddMySql5()
+            .WithGlobalConnectionString(connectionString)
+            .ScanIn(Assembly.Load("MyRecipeBook.Infrastructure")).For.All();
+        });
+    }
+
+    private static void AddFluentMigrator_SqlServer(IServiceCollection services, IConfiguration configurarion)
+    {
+        var connectionString = configurarion.ConnetionString();
+
+        services.AddFluentMigratorCore().ConfigureRunner(options =>
+        {
+            options
+            .AddSqlServer()
+            .WithGlobalConnectionString(connectionString)
+            .ScanIn(Assembly.Load("MyRecipeBook.Infrastructure")).For.All();
+        });
     }
 }
