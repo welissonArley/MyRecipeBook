@@ -129,7 +129,7 @@
   <data name="NAME_EMPTY" xml:space="preserve">
     <value>O nome não pode estar vazio.</value>
   </data>
-  <data name="PASSWORD_EMPTY" xml:space="preserve">
+  <data name="PASSWORD_MUST_BE_LONGER_THAN_6_CHARACTERS" xml:space="preserve">
     <value>A senha deve ter mais de 6 caracteres.</value>
   </data>
   <data name="UNKNOWN_ERROR" xml:space="preserve">
