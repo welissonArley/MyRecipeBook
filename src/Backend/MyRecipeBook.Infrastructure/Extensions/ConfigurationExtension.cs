@@ -5,6 +5,8 @@ namespace MyRecipeBook.Infrastructure.Extensions;
 
 public static class ConfigurationExtension
 {
+    public static bool IsUnitTestEnviroment(this IConfiguration configurarion) => configurarion.GetValue<bool>("InMemoryTest");
+
     public static DatabaseType DatabaseType(this IConfiguration configurarion)
     {
         var databaseType = configurarion.GetConnectionString("DatabaseType");

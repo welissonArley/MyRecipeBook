@@ -14,22 +14,25 @@ namespace MyRecipeBook.Infrastructure;
 
 public static class DependencyInjectionExtension
 {
-    public static void AddInfrastructure(this IServiceCollection services, IConfiguration configurarion)
+    public static void AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
-        var databaseType = configurarion.DatabaseType();
+        AddRepositories(services);
+
+        if (configuration.IsUnitTestEnviroment())
+            return;
+
+        var databaseType = configuration.DatabaseType();
 
         if (databaseType == DatabaseType.MySql)
         {
-            AddDbContext_MySqlServer(services, configurarion);
-            AddFluentMigrator_MySql(services, configurarion);
+            AddDbContext_MySqlServer(services, configuration);
+            AddFluentMigrator_MySql(services, configuration);
         }
         else
         {
-            AddDbContext_SqlServer(services, configurarion);
-            AddFluentMigrator_SqlServer(services, configurarion);
+            AddDbContext_SqlServer(services, configuration);
+            AddFluentMigrator_SqlServer(services, configuration);
         }
-
-        AddRepositories(services);
     }
 
     private static void AddDbContext_MySqlServer(IServiceCollection services, IConfiguration configurarion)
