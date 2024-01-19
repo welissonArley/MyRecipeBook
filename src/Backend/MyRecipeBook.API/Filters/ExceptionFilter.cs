@@ -17,18 +17,18 @@ public class ExceptionFilter : IExceptionFilter
             ThrowUnknowException(context);
     }
 
-    private void HandleProjectException(ExceptionContext context)
+    private static void HandleProjectException(ExceptionContext context)
     {
         if(context.Exception is ErrorOnValidationException)
         {
             var exception = context.Exception as ErrorOnValidationException;
 
             context.HttpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
-            context.Result = new BadRequestObjectResult(new ResponseErrorJson(exception.ErrorMessages));
+            context.Result = new BadRequestObjectResult(new ResponseErrorJson(exception!.ErrorMessages));
         }
     }
 
-    private void ThrowUnknowException(ExceptionContext context)
+    private static void ThrowUnknowException(ExceptionContext context)
     {
         context.HttpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
         context.Result = new ObjectResult(new ResponseErrorJson(ResourceMessagesException.UNKNOWN_ERROR));

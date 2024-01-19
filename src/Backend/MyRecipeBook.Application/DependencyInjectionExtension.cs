@@ -8,9 +8,9 @@ namespace MyRecipeBook.Application;
 
 public static class DependencyInjectionExtension
 {
-    public static void AddApplication(this IServiceCollection services, IConfiguration configurarion)
+    public static void AddApplication(this IServiceCollection services, IConfiguration configuration)
     {
-        AddPasswordEncrpter(services, configurarion);
+        AddPasswordEncrpter(services, configuration);
         AddAutoMapper(services);
         AddUseCases(services);
     }
@@ -28,9 +28,9 @@ public static class DependencyInjectionExtension
         services.AddScoped<IRegisterUserUseCase, RegisterUserUseCase>();
     }
 
-    private static void AddPasswordEncrpter(IServiceCollection services, IConfiguration configurarion)
+    private static void AddPasswordEncrpter(IServiceCollection services, IConfiguration configuration)
     {
-        var additionalKey = configurarion.GetValue<string>("Settings:Password:AdditionalKey");
+        var additionalKey = configuration.GetValue<string>("Settings:Password:AdditionalKey");
 
         services.AddScoped(option => new PasswordEncripter(additionalKey!));
     }

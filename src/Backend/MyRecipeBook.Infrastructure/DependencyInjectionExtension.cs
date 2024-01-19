@@ -35,9 +35,9 @@ public static class DependencyInjectionExtension
         }
     }
 
-    private static void AddDbContext_MySqlServer(IServiceCollection services, IConfiguration configurarion)
+    private static void AddDbContext_MySqlServer(IServiceCollection services, IConfiguration configuration)
     {
-        var connectionString = configurarion.ConnetionString();
+        var connectionString = configuration.ConnetionString();
         var serverVersion = new MySqlServerVersion(new Version(8, 0, 35));
 
         services.AddDbContext<MyRecipeBookDbContext>(dbContextOptions =>
@@ -46,9 +46,9 @@ public static class DependencyInjectionExtension
         });
     }
 
-    private static void AddDbContext_SqlServer(IServiceCollection services, IConfiguration configurarion)
+    private static void AddDbContext_SqlServer(IServiceCollection services, IConfiguration configuration)
     {
-        var connectionString = configurarion.ConnetionString();
+        var connectionString = configuration.ConnetionString();
 
         services.AddDbContext<MyRecipeBookDbContext>(dbContextOptions =>
         {
@@ -64,9 +64,9 @@ public static class DependencyInjectionExtension
         services.AddScoped<IUserReadOnlyRepository, UserRepository>();
     }
 
-    private static void AddFluentMigrator_MySql(IServiceCollection services, IConfiguration configurarion)
+    private static void AddFluentMigrator_MySql(IServiceCollection services, IConfiguration configuration)
     {
-        var connectionString = configurarion.ConnetionString();
+        var connectionString = configuration.ConnetionString();
 
         services.AddFluentMigratorCore().ConfigureRunner(options =>
         {
@@ -77,9 +77,9 @@ public static class DependencyInjectionExtension
         });
     }
 
-    private static void AddFluentMigrator_SqlServer(IServiceCollection services, IConfiguration configurarion)
+    private static void AddFluentMigrator_SqlServer(IServiceCollection services, IConfiguration configuration)
     {
-        var connectionString = configurarion.ConnetionString();
+        var connectionString = configuration.ConnetionString();
 
         services.AddFluentMigratorCore().ConfigureRunner(options =>
         {
