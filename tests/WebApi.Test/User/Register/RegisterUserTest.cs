@@ -3,7 +3,6 @@ using FluentAssertions;
 using MyRecipeBook.Exceptions;
 using System.Globalization;
 using System.Net;
-using System.Net.Http.Json;
 using System.Text.Json;
 using WebApi.Test.InlineData;
 using Xunit;
@@ -30,6 +29,7 @@ public class RegisterUserTest : MyRecipeBookClassFixture
         var responseData = await JsonDocument.ParseAsync(responseBody);
 
         responseData.RootElement.GetProperty("name").GetString().Should().NotBeNullOrWhiteSpace().And.Be(request.Name);
+        responseData.RootElement.GetProperty("token").GetProperty("accessToken").GetString().Should().NotBeNullOrWhiteSpace();
     }
 
     [Theory]

@@ -1,13 +1,12 @@
-﻿using MyRecipeBook.Communication.Requests;
-using System.Net.Http.Json;
+﻿using CommonTestUtilities.Requests;
+using FluentAssertions;
+using MyRecipeBook.Communication.Requests;
+using MyRecipeBook.Exceptions;
+using System.Globalization;
 using System.Net;
 using System.Text.Json;
 using WebApi.Test.InlineData;
 using Xunit;
-using FluentAssertions;
-using CommonTestUtilities.Requests;
-using MyRecipeBook.Exceptions;
-using System.Globalization;
 
 namespace WebApi.Test.Login.DoLogin;
 
@@ -44,6 +43,7 @@ public class DoLoginTest : MyRecipeBookClassFixture
         var responseData = await JsonDocument.ParseAsync(responseBody);
 
         responseData.RootElement.GetProperty("name").GetString().Should().NotBeNullOrWhiteSpace().And.Be(_name);
+        responseData.RootElement.GetProperty("token").GetProperty("accessToken").GetString().Should().NotBeNullOrWhiteSpace();
     }
 
     [Theory]
