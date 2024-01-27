@@ -16,7 +16,7 @@ public class RegisterUserUseCase : IRegisterUserUseCase
     private readonly IUserReadOnlyRepository _readOnlyRepository;
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
-    private readonly IAccesTokenGenerator _accesTokenGenerator;
+    private readonly IAccessTokenGenerator _accesTokenGenerator;
     private readonly PasswordEncripter _passwordEncripter;
 
     public RegisterUserUseCase(
@@ -24,7 +24,7 @@ public class RegisterUserUseCase : IRegisterUserUseCase
         IUserReadOnlyRepository readOnlyRepository,
         IUnitOfWork unitOfWork,
         PasswordEncripter passwordEncripter,
-        IAccesTokenGenerator accesTokenGenerator,
+        IAccessTokenGenerator accesTokenGenerator,
         IMapper mapper)
     {
         _writeOnlyRepository = writeOnlyRepository;
