@@ -85,6 +85,6 @@ public class RegisterUserValidatorTest
         result.IsValid.Should().BeFalse();
 
         result.Errors.Should().ContainSingle()
-            .And.Contain(e => e.ErrorMessage.Equals(ResourceMessagesException.PASSWORD_MUST_BE_LONGER_THAN_6_CHARACTERS));
+            .And.Contain(e => e.ErrorMessage.Equals(ResourceMessagesException.INVALID_PASSWORD));
     }
 }

@@ -117,25 +117,100 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AT_LEAST_ONE_INGREDIENT" xml:space="preserve">
+    <value>Note that at least one ingredient is required.</value>
+  </data>
+  <data name="AT_LEAST_ONE_INSTRUCTION" xml:space="preserve">
+    <value>Please ensure there is at least one instruction provided for the recipe.</value>
+  </data>
+  <data name="CODE_INVALID" xml:space="preserve">
+    <value>Invalid code.</value>
+  </data>
+  <data name="CODE_RESET_PASSWORD_REQUIRED" xml:space="preserve">
+    <value>A code to reset your password is required.</value>
+  </data>
+  <data name="COOKING_TIME_NOT_SUPPORTED" xml:space="preserve">
+    <value>The provided cooking time value is not supported.</value>
+  </data>
+  <data name="DIFFICULTY_LEVEL_NOT_SUPPORTED" xml:space="preserve">
+    <value>The specified difficulty level for the recipe is not supported.</value>
+  </data>
+  <data name="DISH_TYPE_NOT_SUPPORTED" xml:space="preserve">
+    <value>The chosen dish type is not supported.</value>
+  </data>
+  <data name="DUPLICATED_INGREDIENTS_IN_LIST" xml:space="preserve">
+    <value>Duplicated ingredients are not allowed in the list.</value>
+  </data>
   <data name="EMAIL_ALREADY_REGISTERED" xml:space="preserve">
-    <value>E-mail already registered.</value>
+    <value>Email already registered on the platform.</value>
   </data>
   <data name="EMAIL_EMPTY" xml:space="preserve">
-    <value>The e-mail must not be empty.</value>
+    <value>The email cannot be empty.</value>
   </data>
   <data name="EMAIL_INVALID" xml:space="preserve">
-    <value>The e-mail address is invalid.</value>
+    <value>The email is invalid.</value>
   </data>
   <data name="EMAIL_OR_PASSWORD_INVALID" xml:space="preserve">
-    <value>Email and/or password invalid.</value>
+    <value>Invalid e-mail and/or password.</value>
+  </data>
+  <data name="EXPIRED_CODE" xml:space="preserve">
+    <value>The code is expired.</value>
+  </data>
+  <data name="EXPIRED_SESSION" xml:space="preserve">
+    <value>Your session has expired. Please log in again to continue.</value>
+  </data>
+  <data name="GENERATE_ONE_RECIPE_PER_DAY" xml:space="preserve">
+    <value>Sorry, you can only generate one recipe per day. Come back tomorrow!</value>
+  </data>
+  <data name="INGREDIENT_EMPTY" xml:space="preserve">
+    <value>The ingredient is left empty, please provide a valid value.</value>
+  </data>
+  <data name="INGREDIENT_NOT_FOLLOWING_PATTERN" xml:space="preserve">
+    <value>Invalid ingredient format. Please ensure the ingredient follows our pattern.</value>
+  </data>
+  <data name="INSTRUCTION_EMPTY" xml:space="preserve">
+    <value>The instruction is left empty, please provide a valid instruction.</value>
+  </data>
+  <data name="INVALID_NUMBER_INGREDIENTS" xml:space="preserve">
+    <value>Invalid number of ingredients. The list must contain between 1 and 5 ingredients.</value>
+  </data>
+  <data name="INVALID_PASSWORD" xml:space="preserve">
+    <value>The password must be longer than 6 characters.</value>
+  </data>
+  <data name="INVALID_SESSION" xml:space="preserve">
+    <value>We couldn't find a valid session. Please log in to access this feature.</value>
   </data>
   <data name="NAME_EMPTY" xml:space="preserve">
     <value>The name cannot be empty.</value>
   </data>
-  <data name="PASSWORD_MUST_BE_LONGER_THAN_6_CHARACTERS" xml:space="preserve">
-    <value>The password must be longer than 6 characters.</value>
+  <data name="NON_NEGATIVE_INSTRUCTION_STEP" xml:space="preserve">
+    <value>Use a non-negative value for the instruction step.</value>
+  </data>
+  <data name="NO_TOKEN" xml:space="preserve">
+    <value>Request don't have token.</value>
+  </data>
+  <data name="ONLY_IMAGES_ACCEPTED" xml:space="preserve">
+    <value>Only images (PNG, JPG, JPEG) are accepted.</value>
+  </data>
+  <data name="PASSWORD_DIFFERENT_CURRENT_PASSWORD" xml:space="preserve">
+    <value>The password entered is different from the current password.</value>
+  </data>
+  <data name="PASSWORD_EMPTY" xml:space="preserve">
+    <value>The password cannot be empty.</value>
+  </data>
+  <data name="RECIPE_NOT_FOUND" xml:space="preserve">
+    <value>The recipe could not be found.</value>
+  </data>
+  <data name="RECIPE_TITLE_EMPTY" xml:space="preserve">
+    <value>The recipe title has been left blank. Please provide a valid title.</value>
+  </data>
+  <data name="TWO_OR_MORE_INSTRUCTIONS_SAME_ORDER" xml:space="preserve">
+    <value>When adding instructions, please ensure that each one has a unique step number. Two or more instructions cannot have the same step.</value>
   </data>
   <data name="UNKNOWN_ERROR" xml:space="preserve">
     <value>Unknown error.</value>
+  </data>
+  <data name="USER_WITHOUT_PERMISSION_ACCESS_RESOURCE" xml:space="preserve">
+    <value>You can't access this resource.</value>
   </data>
 </root>
