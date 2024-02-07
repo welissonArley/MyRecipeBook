@@ -27,8 +27,5 @@ public class PasswordValidator<T> : PropertyValidator<T, string>
 
     public override string Name => "PasswordValidator";
 
-    protected override string GetDefaultMessageTemplate(string errorCode)
-    {
-        return base.GetDefaultMessageTemplate("{ErrorMessage}");
-    }
+    protected override string GetDefaultMessageTemplate(string errorCode) => "{ErrorMessage}";
 }
