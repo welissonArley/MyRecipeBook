@@ -76,8 +76,8 @@ public class UpdateUserUseCaseTest
         var loggedUser = LoggedUserBuilder.Build(user);
 
         var userReadOnlyRepositoryBuilder = new UserReadOnlyRepositoryBuilder();
-        if (string.IsNullOrEmpty(email).IsFalse())
-            userReadOnlyRepositoryBuilder.ExistActiveUserWithEmail(email!);
+        if (email.NotEmpty())
+            userReadOnlyRepositoryBuilder.ExistActiveUserWithEmail(email);
 
         return new UpdateUserUseCase(loggedUser, userUpdateRepository, userReadOnlyRepositoryBuilder.Build(), unitOfWork);
     }

@@ -65,8 +65,8 @@ public class RegisterUserUseCaseTest
         var readRepositoryBuilder = new UserReadOnlyRepositoryBuilder();
         var accessTokenGenerator = JwtTokenGeneratorBuilder.Build();
 
-        if (string.IsNullOrEmpty(email).IsFalse())
-            readRepositoryBuilder.ExistActiveUserWithEmail(email!);
+        if (email.NotEmpty())
+            readRepositoryBuilder.ExistActiveUserWithEmail(email);
 
         return new RegisterUserUseCase(writeRepository, readRepositoryBuilder.Build(), unitOfWork, passwordEncripter, accessTokenGenerator, mapper);
     }
