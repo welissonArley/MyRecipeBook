@@ -18,10 +18,10 @@ public class Version0000002 : VersionBase
             .WithColumn("RecipeId").AsInt64().NotNullable().ForeignKey("FK_Ingredient_Recipe_Id", "Recipes", "Id")
             .OnDelete(System.Data.Rule.Cascade);
 
-        CreateTable("Intructions")
+        CreateTable("Instructions")
             .WithColumn("Step").AsInt32().NotNullable()
             .WithColumn("Text").AsString(2000).NotNullable()
-            .WithColumn("RecipeId").AsInt64().NotNullable().ForeignKey("FK_Intruction_Recipe_Id", "Recipes", "Id")
+            .WithColumn("RecipeId").AsInt64().NotNullable().ForeignKey("FK_Instruction_Recipe_Id", "Recipes", "Id")
             .OnDelete(System.Data.Rule.Cascade);
 
         CreateTable("DishTypes")
