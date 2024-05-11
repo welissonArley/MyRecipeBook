@@ -223,6 +223,15 @@ namespace MyRecipeBook.Exceptions {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The instruction exceeds the maximum limit of 2000 characters..
+        /// </summary>
+        public static string INSTRUCTION_EXCEEDS_LIMIT_CHARACTERS {
+            get {
+                return ResourceManager.GetString("INSTRUCTION_EXCEEDS_LIMIT_CHARACTERS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Invalid number of ingredients. The list must contain between 1 and 5 ingredients..
         /// </summary>
         public static string INVALID_NUMBER_INGREDIENTS {

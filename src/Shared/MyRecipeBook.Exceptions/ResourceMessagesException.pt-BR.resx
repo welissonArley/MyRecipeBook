@@ -171,6 +171,9 @@
   <data name="INSTRUCTION_EMPTY" xml:space="preserve">
     <value>A instrução foi deixada em branco; forneça uma instrução válida.</value>
   </data>
+  <data name="INSTRUCTION_EXCEEDS_LIMIT_CHARACTERS" xml:space="preserve">
+    <value>A instrução excede o limite máximo de 2000 caracteres.</value>
+  </data>
   <data name="INVALID_NUMBER_INGREDIENTS" xml:space="preserve">
     <value>Número inválido de ingredientes. A lista deve conter entre 1 e 5 ingredientes.</value>
   </data>

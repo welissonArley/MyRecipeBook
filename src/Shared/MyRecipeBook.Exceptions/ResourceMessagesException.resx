@@ -171,6 +171,9 @@
   <data name="INSTRUCTION_EMPTY" xml:space="preserve">
     <value>The instruction is left empty, please provide a valid instruction.</value>
   </data>
+  <data name="INSTRUCTION_EXCEEDS_LIMIT_CHARACTERS" xml:space="preserve">
+    <value>The instruction exceeds the maximum limit of 2000 characters.</value>
+  </data>
   <data name="INVALID_NUMBER_INGREDIENTS" xml:space="preserve">
     <value>Invalid number of ingredients. The list must contain between 1 and 5 ingredients.</value>
   </data>
