@@ -20,7 +20,7 @@ public class RegisterUserTest : MyRecipeBookClassFixture
     {
         var request = RequestRegisterUserJsonBuilder.Build();
 
-        var response = await DoPost(METHOD, request);
+        var response = await DoPost(method: METHOD, request: request);
 
         response.StatusCode.Should().Be(HttpStatusCode.Created);
 
@@ -39,7 +39,7 @@ public class RegisterUserTest : MyRecipeBookClassFixture
         var request = RequestRegisterUserJsonBuilder.Build();
         request.Name = string.Empty;
 
-        var response = await DoPost(METHOD, request, culture);
+        var response = await DoPost(method: METHOD, request: request, culture: culture);
 
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
 

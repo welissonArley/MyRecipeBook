@@ -34,7 +34,7 @@ public class DoLoginTest : MyRecipeBookClassFixture
             Password = _password
         };
 
-        var response = await DoPost(METHOD, request);
+        var response = await DoPost(method: METHOD, request: request);
 
         response.StatusCode.Should().Be(HttpStatusCode.OK);
 
@@ -52,7 +52,7 @@ public class DoLoginTest : MyRecipeBookClassFixture
     {
         var request = RequestLoginJsonBuilder.Build();
 
-        var response = await DoPost(METHOD, request, culture);
+        var response = await DoPost(method: METHOD, request: request, culture: culture);
 
         response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
 
