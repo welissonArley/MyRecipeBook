@@ -47,7 +47,7 @@ public class UpdateUserUseCase : IUpdateUserUseCase
     {
         var validator = new UpdateUserValidator();
 
-        var result = validator.Validate(request);
+        var result = await validator.ValidateAsync(request);
 
         if (currentEmail.Equals(request.Email).IsFalse())
         {
