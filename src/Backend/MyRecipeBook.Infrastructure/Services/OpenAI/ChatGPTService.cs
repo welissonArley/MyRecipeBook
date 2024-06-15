@@ -1,13 +1,30 @@
 ﻿using MyRecipeBook.Domain.Dtos;
 using MyRecipeBook.Domain.Services.OpenAI;
+using OpenAI_API;
+using OpenAI_API.Chat;
 
 namespace MyRecipeBook.Infrastructure.Services.OpenAI;
 public class ChatGPTService : IGenerateRecipeAI
 {
     private const string CHAT_MODEL = "gpt-4o";
 
-    public Task<GeneratedRecipeDto> Generate(IList<string> ingredients)
+    private readonly IOpenAIAPI _openAIAPI;
+
+    public ChatGPTService(IOpenAIAPI openAIAPI)
     {
-        throw new NotImplementedException();
+        _openAIAPI = openAIAPI;
+    }
+
+    public async Task<GeneratedRecipeDto> Generate(IList<string> ingredients)
+    {
+        var conversation = _openAIAPI.Chat.CreateConversation(new ChatRequest { Model = CHAT_MODEL });
+
+        conversation.AppendSystemMessage(ResourceOpenAI.STARTING_GENERATE_RECIPE);
+
+        conversation.AppendUserInput(string.Join(";", ingredients));
+
+        var response = await conversation.GetResponseFromChatbotAsync();
+
+        return null;
     }
 }
