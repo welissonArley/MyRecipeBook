@@ -14,6 +14,11 @@ public class AzureStorageService : IBlobStorageService
 
     public async Task Upload(User user, Stream file, string fileName)
     {
-        throw new NotImplementedException();
+        var container = _blobServiceClient.GetBlobContainerClient(user.UserIdentifier.ToString());
+        await container.CreateIfNotExistsAsync();
+
+        var blobClient = container.GetBlobClient(fileName);
+
+        await blobClient.UploadAsync(file, overwrite: true);
     }
 }
