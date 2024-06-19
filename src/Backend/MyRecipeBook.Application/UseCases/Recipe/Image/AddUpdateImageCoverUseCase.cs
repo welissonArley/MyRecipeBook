@@ -4,6 +4,9 @@ using MyRecipeBook.Domain.Services.LoggedUser;
 using MyRecipeBook.Exceptions.ExceptionsBase;
 using MyRecipeBook.Exceptions;
 using Microsoft.AspNetCore.Http;
+using FileTypeChecker.Extensions;
+using FileTypeChecker.Types;
+using MyRecipeBook.Domain.Extensions;
 
 namespace MyRecipeBook.Application.UseCases.Recipe.Image;
 public class AddUpdateImageCoverUseCase : IAddUpdateImageCoverUseCase
@@ -30,6 +33,14 @@ public class AddUpdateImageCoverUseCase : IAddUpdateImageCoverUseCase
         
         if (recipe is null)
             throw new NotFoundException(ResourceMessagesException.RECIPE_NOT_FOUND);
-        
+
+        var fileStream = file.OpenReadStream();
+
+        if(
+            fileStream.Is<PortableNetworkGraphic>().IsFalse()
+            && fileStream.Is<JointPhotographicExpertsGroup>().IsFalse())
+        {
+            throw new ErrorOnValidationException([ResourceMessagesException.ONLY_IMAGES_ACCEPTED]);
+        }
     }
 }
