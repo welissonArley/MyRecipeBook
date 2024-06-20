@@ -40,7 +40,7 @@ public class GetRecipeByIdUseCase : IGetRecipeByIdUseCase
 
         if (recipe.ImageIdentifier.NotEmpty())
         {
-            var url = await _blobStorageService.GetImageUrl(loggedUser, recipe.ImageIdentifier);
+            var url = await _blobStorageService.GetFileUrl(loggedUser, recipe.ImageIdentifier);
 
             response.ImageUrl = url;
         }

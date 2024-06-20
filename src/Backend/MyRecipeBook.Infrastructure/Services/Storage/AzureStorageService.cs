@@ -25,7 +25,7 @@ public class AzureStorageService : IBlobStorageService
         await blobClient.UploadAsync(file, overwrite: true);
     }
 
-    public async Task<string> GetImageUrl(User user, string fileName)
+    public async Task<string> GetFileUrl(User user, string fileName)
     {
         var containerName = user.UserIdentifier.ToString();
 
@@ -52,5 +52,15 @@ public class AzureStorageService : IBlobStorageService
         }
 
         return string.Empty;
+    }
+
+    public async Task Delete(User user, string fileName)
+    {
+        var containerClient = _blobServiceClient.GetBlobContainerClient(user.UserIdentifier.ToString());
+        var exist = await containerClient.ExistsAsync();
+        if (exist.Value)
+        {
+            await containerClient.DeleteBlobIfExistsAsync(fileName);
+        }
     }
 }
