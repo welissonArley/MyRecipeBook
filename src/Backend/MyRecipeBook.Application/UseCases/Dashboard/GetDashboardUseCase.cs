@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
+using MyRecipeBook.Application.Extensions;
 using MyRecipeBook.Communication.Responses;
 using MyRecipeBook.Domain.Repositories.Recipe;
 using MyRecipeBook.Domain.Services.LoggedUser;
+using MyRecipeBook.Domain.Services.Storage;
 
 namespace MyRecipeBook.Application.UseCases.Dashboard;
 public class GetDashboardUseCase : IGetDashboardUseCase
@@ -9,15 +11,18 @@ public class GetDashboardUseCase : IGetDashboardUseCase
     private readonly IRecipeReadOnlyRepository _repository;
     private readonly IMapper _mapper;
     private readonly ILoggedUser _loggedUser;
+    private readonly IBlobStorageService _blobStorageService;
 
     public GetDashboardUseCase(
         IRecipeReadOnlyRepository repository,
         IMapper mapper,
-        ILoggedUser loggedUser)
+        ILoggedUser loggedUser,
+        IBlobStorageService blobStorageService)
     {
         _repository = repository;
         _mapper = mapper;
         _loggedUser = loggedUser;
+        _blobStorageService = blobStorageService;
     }
 
     public async Task<ResponseRecipesJson> Execute()
@@ -28,7 +33,7 @@ public class GetDashboardUseCase : IGetDashboardUseCase
 
         return new ResponseRecipesJson
         {
-            Recipes = _mapper.Map<IList<ResponseShortRecipeJson>>(recipes)
+            Recipes = await recipes.MapToShortRecipeJson(loggedUser, _blobStorageService, _mapper)
         };
     }
 }
