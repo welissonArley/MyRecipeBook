@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
-using FileTypeChecker.Extensions;
-using FileTypeChecker.Types;
+using MyRecipeBook.Application.Extensions;
 using MyRecipeBook.Communication.Requests;
 using MyRecipeBook.Communication.Responses;
 using MyRecipeBook.Domain.Extensions;
@@ -51,16 +50,16 @@ public class RegisterRecipeUseCase : IRegisterRecipeUseCase
 
         if(request.Image is not null)
         {
-            recipe.ImageIdentifier = $"{Guid.NewGuid()}{Path.GetExtension(request.Image.FileName)}";
-
             var fileStream = request.Image.OpenReadStream();
 
-            if (
-                fileStream.Is<PortableNetworkGraphic>().IsFalse()
-                && fileStream.Is<JointPhotographicExpertsGroup>().IsFalse())
+            (var isValidImage, var extension) = fileStream.ValidateAndGetImageExtension();
+
+            if (isValidImage.IsFalse())
             {
                 throw new ErrorOnValidationException([ResourceMessagesException.ONLY_IMAGES_ACCEPTED]);
             }
+
+            recipe.ImageIdentifier = $"{Guid.NewGuid()}{extension}";
 
             await _blobStorageService.Upload(loggedUser, fileStream, recipe.ImageIdentifier);
         }
