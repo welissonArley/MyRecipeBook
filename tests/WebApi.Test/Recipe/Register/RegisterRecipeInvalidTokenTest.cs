@@ -16,9 +16,9 @@ public class RegisterRecipeInvalidTokenTest : MyRecipeBookClassFixture
     [Fact]
     public async Task Error_Token_Invalid()
     {
-        var request = RequestRecipeJsonBuilder.Build();
+        var request = RequestRegisterRecipeFormDataBuilder.Build();
 
-        var response = await DoPost(method: METHOD, request: request, token: "tokenInvalid");
+        var response = await DoPostFormData(method: METHOD, request: request, token: "tokenInvalid");
 
         response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
     }
@@ -26,9 +26,9 @@ public class RegisterRecipeInvalidTokenTest : MyRecipeBookClassFixture
     [Fact]
     public async Task Error_Without_Token()
     {
-        var request = RequestRecipeJsonBuilder.Build();
+        var request = RequestRegisterRecipeFormDataBuilder.Build();
 
-        var response = await DoPost(method: METHOD, request: request, token: string.Empty);
+        var response = await DoPostFormData(method: METHOD, request: request, token: string.Empty);
 
         response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
     }
@@ -36,11 +36,11 @@ public class RegisterRecipeInvalidTokenTest : MyRecipeBookClassFixture
     [Fact]
     public async Task Error_Token_With_User_NotFound()
     {
-        var request = RequestRecipeJsonBuilder.Build();
+        var request = RequestRegisterRecipeFormDataBuilder.Build();
 
         var token = JwtTokenGeneratorBuilder.Build().Generate(Guid.NewGuid());
 
-        var response = await DoPost(method: METHOD, request: request, token: token);
+        var response = await DoPostFormData(method: METHOD, request: request, token: token);
 
         response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
     }
