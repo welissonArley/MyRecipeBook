@@ -4,7 +4,7 @@ using MyRecipeBook.Domain.Repositories.User;
 
 namespace MyRecipeBook.Infrastructure.DataAccess.Repositories;
 
-public class UserRepository : IUserWriteOnlyRepository, IUserReadOnlyRepository, IUserUpdateOnlyRepository
+public class UserRepository : IUserWriteOnlyRepository, IUserReadOnlyRepository, IUserUpdateOnlyRepository, IUserDeleteOnlyRepository
 {
     private readonly MyRecipeBookDbContext _dbContext;
 
@@ -32,4 +32,17 @@ public class UserRepository : IUserWriteOnlyRepository, IUserReadOnlyRepository,
     }
 
     public void Update(User user) => _dbContext.Users.Update(user);
+
+    public async Task DeleteAccount(Guid userIdentifier)
+    {
+        var user = await _dbContext.Users.FirstOrDefaultAsync(user => user.UserIdentifier == userIdentifier);
+        if (user is null)
+            return;
+
+        var recipes = _dbContext.Recipes.Where(recipe => recipe.UserId == user.Id);
+
+        _dbContext.Recipes.RemoveRange(recipes);
+
+        _dbContext.Users.Remove(user);
+    }
 }
