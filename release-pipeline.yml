@@ -9,16 +9,26 @@ variables:
   tag: '$(Build.BuildId)'
 
 pool:
-      vmImage: 'ubuntu-latest'
+  vmImage: 'ubuntu-latest'
 
 steps:
-    - task: Docker@2
-      displayName: Build and push an image to container registry
-      inputs:
-        command: buildAndPush
-        repository: $(imageRepository)
-        dockerfile: $(dockerfilePath)
-        containerRegistry: $(dockerRegistryServiceConnection)
-        tags: |
-          latest
-          $(tag)
+
+- task: DownloadSecureFile@1
+  displayName: Download appsettings.json
+  name: appsettings
+  inputs:
+    secureFile: 'appsettings.Production.json'
+
+- script: |
+    cp $(appsettings.secureFilePath) src/Backend/MyRecipeBook.API
+
+- task: Docker@2
+  displayName: Build and push an image to container registry
+  inputs:
+    command: buildAndPush
+    repository: $(imageRepository)
+    dockerfile: $(dockerfilePath)
+    containerRegistry: $(dockerRegistryServiceConnection)
+    tags: |
+      latest
+      $(tag)
