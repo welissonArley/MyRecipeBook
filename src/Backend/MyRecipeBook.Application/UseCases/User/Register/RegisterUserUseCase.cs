@@ -3,6 +3,7 @@ using MyRecipeBook.Communication.Requests;
 using MyRecipeBook.Communication.Responses;
 using MyRecipeBook.Domain.Extensions;
 using MyRecipeBook.Domain.Repositories;
+using MyRecipeBook.Domain.Repositories.Token;
 using MyRecipeBook.Domain.Repositories.User;
 using MyRecipeBook.Domain.Security.Cryptography;
 using MyRecipeBook.Domain.Security.Tokens;
@@ -18,6 +19,8 @@ public class RegisterUserUseCase : IRegisterUserUseCase
     private readonly IMapper _mapper;
     private readonly IAccessTokenGenerator _accessTokenGenerator;
     private readonly IPasswordEncripter _passwordEncripter;
+    private readonly ITokenRepository _tokenRepository;
+    private readonly IRefreshTokenGenerator _refreshTokenGenerator;
 
     public RegisterUserUseCase(
         IUserWriteOnlyRepository writeOnlyRepository,
@@ -25,7 +28,9 @@ public class RegisterUserUseCase : IRegisterUserUseCase
         IUnitOfWork unitOfWork,
         IPasswordEncripter passwordEncripter,
         IAccessTokenGenerator accessTokenGenerator,
-        IMapper mapper)
+        IMapper mapper,
+        ITokenRepository tokenRepository,
+        IRefreshTokenGenerator refreshTokenGenerator)
     {
         _writeOnlyRepository = writeOnlyRepository;
         _readOnlyRepository = readOnlyRepository;
@@ -33,6 +38,8 @@ public class RegisterUserUseCase : IRegisterUserUseCase
         _passwordEncripter = passwordEncripter;
         _unitOfWork = unitOfWork;
         _accessTokenGenerator = accessTokenGenerator;
+        _refreshTokenGenerator = refreshTokenGenerator;
+        _tokenRepository = tokenRepository;
     }
 
     public async Task<ResponseRegisteredUserJson> Execute(RequestRegisterUserJson request)
@@ -41,20 +48,37 @@ public class RegisterUserUseCase : IRegisterUserUseCase
 
         var user = _mapper.Map<Domain.Entities.User>(request);
         user.Password = _passwordEncripter.Encrypt(request.Password);
-        user.UserIdentifier = Guid.NewGuid();
 
         await _writeOnlyRepository.Add(user);
 
         await _unitOfWork.Commit();
+
+        var refreshToken = await CreateAndSaveRefreshToken(user);
 
         return new ResponseRegisteredUserJson
         {
             Name = user.Name,
             Tokens = new ResponseTokensJson
             {
-                AccessToken = _accessTokenGenerator.Generate(user.UserIdentifier)
+                AccessToken = _accessTokenGenerator.Generate(user.UserIdentifier),
+                RefreshToken = refreshToken
             }
         };
+    }
+
+    private async Task<string> CreateAndSaveRefreshToken(Domain.Entities.User user)
+    {
+        var refreshToken = new Domain.Entities.RefreshToken
+        {
+            Value = _refreshTokenGenerator.Generate(),
+            UserId = user.Id
+        };
+
+        await _tokenRepository.SaveNewRefreshToken(refreshToken);
+
+        await _unitOfWork.Commit();
+
+        return refreshToken.Value;
     }
 
     private async Task Validate(RequestRegisterUserJson request)
