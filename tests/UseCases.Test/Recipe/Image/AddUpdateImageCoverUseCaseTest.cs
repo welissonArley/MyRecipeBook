@@ -30,6 +30,23 @@ public class AddUpdateImageCoverUseCaseTest
 
     [Theory]
     [ClassData(typeof(ImageTypesInlineData))]
+    public async Task Success_Recipe_Did_Not_Have_Image(IFormFile file)
+    {
+        (var user, _) = UserBuilder.Build();
+        var recipe = RecipeBuilder.Build(user);
+        recipe.ImageIdentifier = null;
+
+        var useCase = CreateUseCase(user, recipe);
+
+        Func<Task> act = async () => await useCase.Execute(recipe.Id, file);
+
+        await act.Should().NotThrowAsync();
+
+        recipe.ImageIdentifier.Should().NotBeNullOrWhiteSpace();
+    }
+
+    [Theory]
+    [ClassData(typeof(ImageTypesInlineData))]
     public async Task Error_Recipe_NotFound(IFormFile file)
     {
         (var user, _) = UserBuilder.Build();
