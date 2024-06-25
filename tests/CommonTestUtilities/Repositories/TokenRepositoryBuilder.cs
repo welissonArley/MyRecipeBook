@@ -9,9 +9,12 @@ public class TokenRepositoryBuilder
 
     public TokenRepositoryBuilder() => _repository = new Mock<ITokenRepository>();
 
-    public void Get(RefreshToken refreshToken)
+    public TokenRepositoryBuilder Get(RefreshToken? refreshToken)
     {
-        _repository.Setup(repository => repository.Get(refreshToken.Value)).ReturnsAsync(refreshToken);
+        if(refreshToken is not null)
+            _repository.Setup(repository => repository.Get(refreshToken.Value)).ReturnsAsync(refreshToken);
+
+        return this;
     }
 
     public ITokenRepository Build() => _repository.Object;
