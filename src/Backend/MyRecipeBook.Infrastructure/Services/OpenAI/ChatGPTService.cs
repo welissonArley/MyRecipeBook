@@ -6,13 +6,13 @@ using OpenAI_API;
 using OpenAI_API.Chat;
 
 namespace MyRecipeBook.Infrastructure.Services.OpenAI;
-public class ChatGPTService : IGenerateRecipeAI
+public class ChatGptService : IGenerateRecipeAI
 {
     private const string CHAT_MODEL = "gpt-4o";
 
     private readonly IOpenAIAPI _openAIAPI;
 
-    public ChatGPTService(IOpenAIAPI openAIAPI)
+    public ChatGptService(IOpenAIAPI openAIAPI)
     {
         _openAIAPI = openAIAPI;
     }

@@ -81,10 +81,8 @@ public class MyRecipeBookClassFixture : IClassFixture<CustomWebApplicationFactor
 
     private void ChangeRequestCulture(string culture)
     {
-        if (_httpClient.DefaultRequestHeaders.Contains("Accept-Language"))
-            _httpClient.DefaultRequestHeaders.Remove("Accept-Language");
-
-        _httpClient.DefaultRequestHeaders.Add("Accept-Language", culture);
+        _httpClient.DefaultRequestHeaders.AcceptLanguage.Clear();
+        _httpClient.DefaultRequestHeaders.AcceptLanguage.Add(new StringWithQualityHeaderValue(culture));
     }
 
     private void AuthorizeRequest(string token)
@@ -95,7 +93,7 @@ public class MyRecipeBookClassFixture : IClassFixture<CustomWebApplicationFactor
         _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
     }
 
-    private void AddListToMultipartContent(
+    private static void AddListToMultipartContent(
         MultipartFormDataContent multipartContent,
         string propertyName,
         System.Collections.IList list)
@@ -115,7 +113,7 @@ public class MyRecipeBookClassFixture : IClassFixture<CustomWebApplicationFactor
         }
     }
 
-    private void AddClassListToMultipartContent(
+    private static void AddClassListToMultipartContent(
         MultipartFormDataContent multipartContent,
         string propertyName,
         System.Collections.IList list)

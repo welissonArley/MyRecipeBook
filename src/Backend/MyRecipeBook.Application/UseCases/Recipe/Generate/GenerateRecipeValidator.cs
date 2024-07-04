@@ -21,13 +21,10 @@ public class GenerateRecipeValidator : AbstractValidator<RequestGenerateRecipeJs
                 if (string.IsNullOrWhiteSpace(value))
                 {
                     context.AddFailure("Ingredient", ResourceMessagesException.INGREDIENT_EMPTY);
-                    return;
                 }
-
-                if (value.Count(c => c == ' ') > 3 || value.Count(c => c == '/') > 1)
+                else if (value.Count(c => c == ' ') > 3 || value.Count(c => c == '/') > 1)
                 {
                     context.AddFailure("Ingredient", ResourceMessagesException.INGREDIENT_NOT_FOLLOWING_PATTERN);
-                    return;
                 }
             });
         });
