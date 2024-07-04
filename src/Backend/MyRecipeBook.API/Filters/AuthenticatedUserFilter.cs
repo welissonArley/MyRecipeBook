@@ -32,7 +32,7 @@ public class AuthenticatedUserFilter : IAsyncAuthorizationFilter
             var exist = await _repository.ExistActiveUserWithIdentifier(userIdentifier);
             if (exist.IsFalse())
             {
-                throw new MyRecipeBookException(ResourceMessagesException.USER_WITHOUT_PERMISSION_ACCESS_RESOURCE);
+                throw new UnauthorizedException(ResourceMessagesException.USER_WITHOUT_PERMISSION_ACCESS_RESOURCE);
             }
         }
         catch (SecurityTokenExpiredException)
@@ -57,7 +57,7 @@ public class AuthenticatedUserFilter : IAsyncAuthorizationFilter
         var authentication = context.HttpContext.Request.Headers.Authorization.ToString();
         if (string.IsNullOrWhiteSpace(authentication))
         {
-            throw new MyRecipeBookException(ResourceMessagesException.NO_TOKEN);
+            throw new UnauthorizedException(ResourceMessagesException.NO_TOKEN);
         }
 
         return authentication["Bearer ".Length..].Trim();
