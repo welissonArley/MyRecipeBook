@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MyRecipeBook.Communication.Requests;
 using MyRecipeBook.Communication.Responses;
+using MyRecipeBook.Domain.Entities;
 using MyRecipeBook.Domain.Extensions;
 using MyRecipeBook.Domain.Repositories;
 using MyRecipeBook.Domain.Repositories.Token;
@@ -68,17 +69,17 @@ public class RegisterUserUseCase : IRegisterUserUseCase
 
     private async Task<string> CreateAndSaveRefreshToken(Domain.Entities.User user)
     {
-        var refreshToken = new Domain.Entities.RefreshToken
-        {
-            Value = _refreshTokenGenerator.Generate(),
-            UserId = user.Id
-        };
+        var refreshToken = _refreshTokenGenerator.Generate();
 
-        await _tokenRepository.SaveNewRefreshToken(refreshToken);
+        await _tokenRepository.SaveNewRefreshToken(new RefreshToken
+        {
+            Value = refreshToken,
+            UserId = user.Id
+        });
 
         await _unitOfWork.Commit();
 
-        return refreshToken.Value;
+        return refreshToken;
     }
 
     private async Task Validate(RequestRegisterUserJson request)
