@@ -38,13 +38,4 @@ public class DeleteUserService : BackgroundService
     }
 
     private Task ExceptionReceivedHandler(ProcessErrorEventArgs _) => Task.CompletedTask;
-
-    ~DeleteUserService() => Dispose();
-
-    public override void Dispose()
-    {
-        base.Dispose();
-
-        GC.SuppressFinalize(this);
-    }
 }
