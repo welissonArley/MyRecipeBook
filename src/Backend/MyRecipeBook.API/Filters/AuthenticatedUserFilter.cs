@@ -2,11 +2,11 @@
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.IdentityModel.Tokens;
 using MyRecipeBook.Communication.Responses;
+using MyRecipeBook.Domain.Extensions;
 using MyRecipeBook.Domain.Repositories.User;
 using MyRecipeBook.Domain.Security.Tokens;
-using MyRecipeBook.Exceptions.ExceptionsBase;
 using MyRecipeBook.Exceptions;
-using MyRecipeBook.Domain.Extensions;
+using MyRecipeBook.Exceptions.ExceptionsBase;
 
 namespace MyRecipeBook.API.Filters;
 
@@ -42,9 +42,10 @@ public class AuthenticatedUserFilter : IAsyncAuthorizationFilter
                 TokenIsExpired = true,
             });
         }
-        catch (MyRecipeBookException ex)
+        catch (MyRecipeBookException myRecipeBookException)
         {
-            context.Result = new UnauthorizedObjectResult(new ResponseErrorJson(ex.Message));
+            context.HttpContext.Response.StatusCode = (int)myRecipeBookException.GetStatusCode();
+            context.Result = new ObjectResult(new ResponseErrorJson(myRecipeBookException.GetErrorMessages()));
         }
         catch
         {
