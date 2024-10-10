@@ -2,32 +2,26 @@
 using MyRecipeBook.Domain.Enums;
 using MyRecipeBook.Domain.Extensions;
 using MyRecipeBook.Domain.Services.OpenAI;
-using OpenAI_API;
-using OpenAI_API.Chat;
+using OpenAI.Chat;
 
 namespace MyRecipeBook.Infrastructure.Services.OpenAI;
 public class ChatGptService : IGenerateRecipeAI
 {
-    private const string CHAT_MODEL = "gpt-4o";
+    private readonly ChatClient _chatClient;
 
-    private readonly IOpenAIAPI _openAIAPI;
-
-    public ChatGptService(IOpenAIAPI openAIAPI)
-    {
-        _openAIAPI = openAIAPI;
-    }
+    public ChatGptService(ChatClient chatClient) => _chatClient = chatClient;
 
     public async Task<GeneratedRecipeDto> Generate(IList<string> ingredients)
     {
-        var conversation = _openAIAPI.Chat.CreateConversation(new ChatRequest { Model = CHAT_MODEL });
+        var messages = new List<ChatMessage>
+        {
+            new SystemChatMessage(ResourceOpenAI.STARTING_GENERATE_RECIPE),
+            new UserChatMessage(string.Join(";", ingredients))
+        };
 
-        conversation.AppendSystemMessage(ResourceOpenAI.STARTING_GENERATE_RECIPE);
+        var completion = await _chatClient.CompleteChatAsync(messages);
 
-        conversation.AppendUserInput(string.Join(";", ingredients));
-
-        var response = await conversation.GetResponseFromChatbotAsync();
-
-        var responseList = response
+        var responseList = completion.Value.Content.First().Text
             .Split("\n")
             .Where(response => response.Trim().Equals(string.Empty).IsFalse())
             .Select(item => item.Replace("[", "").Replace("]", ""))

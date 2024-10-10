@@ -16,6 +16,7 @@ using MyRecipeBook.Domain.Services.LoggedUser;
 using MyRecipeBook.Domain.Services.OpenAI;
 using MyRecipeBook.Domain.Services.ServiceBus;
 using MyRecipeBook.Domain.Services.Storage;
+using MyRecipeBook.Domain.ValueObjects;
 using MyRecipeBook.Infrastructure.DataAccess;
 using MyRecipeBook.Infrastructure.DataAccess.Repositories;
 using MyRecipeBook.Infrastructure.Extensions;
@@ -27,7 +28,7 @@ using MyRecipeBook.Infrastructure.Services.LoggedUser;
 using MyRecipeBook.Infrastructure.Services.OpenAI;
 using MyRecipeBook.Infrastructure.Services.ServiceBus;
 using MyRecipeBook.Infrastructure.Services.Storage;
-using OpenAI_API;
+using OpenAI.Chat;
 using System.Reflection;
 
 namespace MyRecipeBook.Infrastructure;
@@ -144,11 +145,9 @@ public static class DependencyInjectionExtension
     {
         services.AddScoped<IGenerateRecipeAI, ChatGptService>();
 
-        var key = configuration.GetValue<string>("Settings:OpenAI:ApiKey");
+        var apiKey = configuration.GetValue<string>("Settings:OpenAI:ApiKey");
 
-        var authentication = new APIAuthentication(key);
-
-        services.AddScoped<IOpenAIAPI>(option => new OpenAIAPI(authentication));
+        services.AddScoped(c => new ChatClient(MyRecipeBookRuleConstants.CHAT_MODEL, apiKey));
     }
 
     private static void AddAzureStorage(IServiceCollection services, IConfiguration configuration)

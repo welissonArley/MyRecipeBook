@@ -16,7 +16,7 @@ public class BlobStorageServiceBuilder
             return this;
 
         var faker = new Faker();
-        var imageUrl = faker.Image.LoremPixelUrl();
+        var imageUrl = faker.Image.LoremFlickrUrl();
 
         _mock.Setup(blobStorage => blobStorage.GetFileUrl(user, fileName)).ReturnsAsync(imageUrl);
 
