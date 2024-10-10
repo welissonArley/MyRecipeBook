@@ -37,5 +37,5 @@ public class DeleteUserService : BackgroundService
         await deleteUserUseCase.Execute(userIdentifier);
     }
 
-    private Task ExceptionReceivedHandler(ProcessErrorEventArgs _) => Task.CompletedTask;
+    private static Task ExceptionReceivedHandler(ProcessErrorEventArgs _) => Task.CompletedTask;
 }

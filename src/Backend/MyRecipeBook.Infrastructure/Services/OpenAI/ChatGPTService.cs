@@ -21,7 +21,7 @@ public class ChatGptService : IGenerateRecipeAI
 
         var completion = await _chatClient.CompleteChatAsync(messages);
 
-        var responseList = completion.Value.Content.First().Text
+        var responseList = completion.Value.Content[0].Text
             .Split("\n")
             .Where(response => response.Trim().Equals(string.Empty).IsFalse())
             .Select(item => item.Replace("[", "").Replace("]", ""))
