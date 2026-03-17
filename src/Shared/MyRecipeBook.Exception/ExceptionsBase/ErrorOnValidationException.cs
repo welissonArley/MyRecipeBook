@@ -8,4 +8,6 @@ public class ErrorOnValidationException : MyRecipeBookException
     {
         _errors = errorMessages;
     }
+
+    public List<string> GetErrorMessages() => _errors;
 }
