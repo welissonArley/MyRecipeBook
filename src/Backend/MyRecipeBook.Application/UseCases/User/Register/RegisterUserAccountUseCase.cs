@@ -1,6 +1,5 @@
 ﻿using Mapster;
 using MyRecipeBook.Communication.Requests;
-using MyRecipeBook.Domain.Extensions;
 using MyRecipeBook.Domain.Security.PasswordHashing;
 using MyRecipeBook.Exception.ExceptionsBase;
 

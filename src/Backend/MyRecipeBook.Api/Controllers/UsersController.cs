@@ -4,7 +4,7 @@ using MyRecipeBook.Communication.Requests;
 
 namespace MyRecipeBook.Api.Controllers;
 
-[Route("api/[controller]")]
+[Route("[controller]")]
 [ApiController]
 public class UsersController : ControllerBase
 {
@@ -15,6 +15,6 @@ public class UsersController : ControllerBase
     {
         useCase.Execute(request);
 
-        return Created();
+        return Ok();
     }
 }
