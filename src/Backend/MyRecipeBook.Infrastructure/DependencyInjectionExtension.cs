@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MyRecipeBook.Domain.Repositories.User;
 using MyRecipeBook.Domain.Security.PasswordHashing;
@@ -12,7 +13,7 @@ public static class DependencyInjectionExtension
 {
     extension (IServiceCollection services)
     {
-        public void AddInfrastructure()
+        public void AddInfrastructure(IConfiguration configuration)
         {
             services.AddScoped<IPasswordHasher, Argon2PasswordHasher>();
 
@@ -20,7 +21,9 @@ public static class DependencyInjectionExtension
 
             services.AddDbContext<MyRecipeBookDbContext>(config =>
             {
-                config.UseMySQL("Server=localhost;Database=meulivrodereceitas;Uid=root;Pwd=@Password123;");
+                var connectionString = configuration.GetConnectionString("DbConnection")!;
+
+                config.UseMySQL(connectionString);
             });
         }
     }
