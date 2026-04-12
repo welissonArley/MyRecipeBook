@@ -61,3 +61,5 @@ async Task ExecuteMigrations()
 
     DatabaseMigration.ExecuteMigrations(scope.ServiceProvider);
 }
+
+public partial class Program { }
