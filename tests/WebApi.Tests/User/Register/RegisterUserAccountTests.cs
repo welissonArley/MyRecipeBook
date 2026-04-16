@@ -11,6 +11,8 @@ namespace WebApi.Tests.User.Register;
 
 public class RegisterUserAccountTests : IClassFixture<WebApplicationFactory<Program>>
 {
+    private const string REQUEST_URI = "/users";
+
     private readonly HttpClient _httpClient;
 
     public RegisterUserAccountTests(WebApplicationFactory<Program> factory)
@@ -23,7 +25,7 @@ public class RegisterUserAccountTests : IClassFixture<WebApplicationFactory<Prog
     {
         var request = RequestRegisterUserAccountJsonBuilder.Build();
 
-        var response = await _httpClient.PostAsJsonAsync("/users", request);
+        var response = await _httpClient.PostAsJsonAsync(REQUEST_URI, request);
 
         response.StatusCode.ShouldBe(HttpStatusCode.Created);
 
@@ -41,7 +43,7 @@ public class RegisterUserAccountTests : IClassFixture<WebApplicationFactory<Prog
         var request = RequestRegisterUserAccountJsonBuilder.Build();
         request.Name = string.Empty;
 
-        var response = await _httpClient.PostAsJsonAsync("/users", request);
+        var response = await _httpClient.PostAsJsonAsync(REQUEST_URI, request);
 
         response.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
 
