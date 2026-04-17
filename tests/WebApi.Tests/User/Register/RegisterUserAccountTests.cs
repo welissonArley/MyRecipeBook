@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using MyRecipeBook.Domain.Extensions;
 using MyRecipeBook.Exception;
 using Shouldly;
+using System.Globalization;
 using System.Net;
 using System.Net.Http.Json;
 using System.Text.Json;
@@ -43,6 +44,9 @@ public class RegisterUserAccountTests : IClassFixture<WebApplicationFactory<Prog
         var request = RequestRegisterUserAccountJsonBuilder.Build();
         request.Name = string.Empty;
 
+        _httpClient.DefaultRequestHeaders.AcceptLanguage.Clear();
+        _httpClient.DefaultRequestHeaders.AcceptLanguage.ParseAdd("pt-BR");
+
         var response = await _httpClient.PostAsJsonAsync(REQUEST_URI, request);
 
         response.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
@@ -53,10 +57,12 @@ public class RegisterUserAccountTests : IClassFixture<WebApplicationFactory<Prog
 
         var errors = responseData.RootElement.GetProperty("errors").EnumerateArray();
 
+        var expectedErrorMessage = ResourceMessagesException.ResourceManager.GetString("VALIDATION_NAME_REQUIRED", new CultureInfo("pt-BR"));
+
         errors.ShouldSatisfyAllConditions(errorsList =>
         {
             errorsList.Count().ShouldBe(1);
-            errorsList.ShouldContain(error => error.GetString().IsNotEmpty() && error.GetString()!.Equals(ResourceMessagesException.VALIDATION_NAME_REQUIRED));
+            errorsList.ShouldContain(error => error.GetString().IsNotEmpty() && error.GetString()!.Equals(expectedErrorMessage));
         });
     }
 }
