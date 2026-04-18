@@ -11,13 +11,13 @@ using WebApi.Tests.InlineData;
 
 namespace WebApi.Tests.User.Register;
 
-public class RegisterUserAccountTests : IClassFixture<WebApplicationFactory<Program>>
+public class RegisterUserAccountTests : IClassFixture<MyRecipeBookApplicationFactory>
 {
     private const string REQUEST_URI = "/users";
 
     private readonly HttpClient _httpClient;
 
-    public RegisterUserAccountTests(WebApplicationFactory<Program> factory)
+    public RegisterUserAccountTests(MyRecipeBookApplicationFactory factory)
     {
         _httpClient = factory.CreateClient();
     }
