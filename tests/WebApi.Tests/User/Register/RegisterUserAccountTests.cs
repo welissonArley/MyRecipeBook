@@ -1,6 +1,9 @@
 ﻿using CommonTestUtilities.Requests;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using MyRecipeBook.Domain.Extensions;
 using MyRecipeBook.Exception;
+using MyRecipeBook.Infrastructure.DataAccess;
 using Shouldly;
 using System.Globalization;
 using System.Net;
@@ -15,10 +18,15 @@ public class RegisterUserAccountTests : IClassFixture<MyRecipeBookApplicationFac
     private const string REQUEST_URI = "/users";
 
     private readonly HttpClient _httpClient;
+    private readonly MyRecipeBookDbContext _dbContext;
 
     public RegisterUserAccountTests(MyRecipeBookApplicationFactory factory)
     {
         _httpClient = factory.CreateClient();
+        
+        var scope = factory.Services.CreateScope();
+
+        _dbContext = scope.ServiceProvider.GetRequiredService<MyRecipeBookDbContext>();
     }
 
     [Fact]
@@ -36,6 +44,10 @@ public class RegisterUserAccountTests : IClassFixture<MyRecipeBookApplicationFac
 
         responseData.RootElement.GetProperty("name").GetString().ShouldBe(request.Name);
         responseData.RootElement.GetProperty("tokens").GetProperty("accessToken").GetString().ShouldBeEmpty();
+
+        var userExists = await _dbContext.Users.AnyAsync(user => user.Active && user.Name.Equals(request.Name) && user.Email.Equals(request.Email));
+
+        userExists.ShouldBeTrue();
     }
 
     [Theory]
@@ -65,5 +77,9 @@ public class RegisterUserAccountTests : IClassFixture<MyRecipeBookApplicationFac
             errorsList.Count().ShouldBe(1);
             errorsList.ShouldContain(error => error.GetString().IsNotEmpty() && error.GetString()!.Equals(expectedErrorMessage));
         });
+
+        var userExists = await _dbContext.Users.AnyAsync(user => user.Active && user.Name.Equals(request.Name) && user.Email.Equals(request.Email));
+
+        userExists.ShouldBeFalse();
     }
 }
