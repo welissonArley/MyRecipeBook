@@ -4,18 +4,24 @@ trigger:
 pool:
   vmImage: ubuntu-latest
 
-steps:
-- task: UseDotNet@2
-  displayName: 'Installing .NET SDK'
-  inputs:
-    version: 10.x
+stages:
+- stage:
+  displayName: 'Stage Build & Tests'
+  jobs:
+  - job:
+    displayName: 'Build & Tests'
+    steps:
+    - task: UseDotNet@2
+      displayName: 'Installing .NET SDK'
+      inputs:
+        version: 10.x
 
-- task: DotNetCoreCLI@2
-  displayName: 'Build'
-  inputs:
-    command: build
+    - task: DotNetCoreCLI@2
+      displayName: 'Build'
+      inputs:
+        command: build
 
-- task: DotNetCoreCLI@2
-  displayName: 'Tests'
-  inputs:
-    command: test
+    - task: DotNetCoreCLI@2
+      displayName: 'Tests'
+      inputs:
+        command: test
