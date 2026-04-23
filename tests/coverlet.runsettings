@@ -5,7 +5,7 @@
       <DataCollector friendlyName="XPlat code coverage">
         <Configuration>
           <Format>cobertura,opencover</Format>
-		  <ExcludeByFile></ExcludeByFile>
+		    <ExcludeByFile>**/obj/**,**/ResourceMessagesException.Designer.cs</ExcludeByFile>
         </Configuration>
       </DataCollector>
     </DataCollectors>
