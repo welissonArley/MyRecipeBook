@@ -97,6 +97,15 @@ namespace MyRecipeBook.Exception {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Oops! Invalid email or password..
+        /// </summary>
+        public static string VALIDATION_LOGIN_INVALID {
+            get {
+                return ResourceManager.GetString("VALIDATION_LOGIN_INVALID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Oops! Name is required..
         /// </summary>
         public static string VALIDATION_NAME_REQUIRED {
