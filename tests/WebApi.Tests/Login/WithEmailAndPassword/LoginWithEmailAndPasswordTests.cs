@@ -40,7 +40,7 @@ public class LoginWithEmailAndPasswordTests : BaseIntegrationTest
         var responseData = await JsonDocument.ParseAsync(responseBody);
 
         responseData.RootElement.GetProperty("name").GetString().ShouldBe(_user1.GetName());
-        responseData.RootElement.GetProperty("tokens").GetProperty("accessToken").GetString().ShouldBeEmpty();
+        responseData.RootElement.GetProperty("tokens").GetProperty("accessToken").GetString().ShouldNotBeNullOrEmpty();
     }
 
     [Theory]
