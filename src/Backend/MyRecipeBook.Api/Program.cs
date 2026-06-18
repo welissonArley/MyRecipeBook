@@ -5,9 +5,13 @@ using Microsoft.IdentityModel.Tokens;
 using MyRecipeBook.Api.Converters;
 using MyRecipeBook.Api.Filters;
 using MyRecipeBook.Application;
+using MyRecipeBook.Domain.Extensions;
+using MyRecipeBook.Domain.Repositories.User;
 using MyRecipeBook.Infrastructure;
 using MyRecipeBook.Infrastructure.Migrations;
 using System.Globalization;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -48,6 +52,30 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateIssuer = false,
             ValidateLifetime = true,
             ClockSkew = TimeSpan.Zero
+        };
+
+        jwtoptions.Events = new JwtBearerEvents
+        {
+            OnTokenValidated = async context =>
+            {
+                var userId = context.Principal?.FindFirstValue(JwtRegisteredClaimNames.Sub)
+                ?? context.Principal?.FindFirstValue(ClaimTypes.NameIdentifier);
+
+                if (userId.IsEmpty())
+                {
+                    context.Fail("Invalid subject");
+
+                    return;
+                }
+
+                var userRepository = context.HttpContext.RequestServices.GetRequiredService<IUserReadOnlyRepository>();
+
+                var existUser = await userRepository.ExistActiveUserWithId(Guid.Parse(userId));
+                if (existUser == false)
+                {
+                    context.Fail("Invalid user");
+                }
+            }
         };
     });
 
