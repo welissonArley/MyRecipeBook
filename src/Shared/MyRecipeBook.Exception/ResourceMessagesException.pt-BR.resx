@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="VALIDATION_CURRENT_PASSWORD" xml:space="preserve">
+    <value>A senha atual informada está incorreta.</value>
+  </data>
   <data name="UNKNOWN_ERROR" xml:space="preserve">
     <value>Erro desconhecido.</value>
   </data>
@@ -137,6 +140,9 @@
   </data>
   <data name="VALIDATION_NAME_REQUIRED" xml:space="preserve">
     <value>Ops! O nome é obrigatório.</value>
+  </data>
+  <data name="VALIDATION_PASSWORD_MIN_LENGTH" xml:space="preserve">
+    <value>Ops! A senha deve ter pelo menos 6 caracteres.</value>
   </data>
   <data name="VALIDATION_PASSWORD_REQUIRED" xml:space="preserve">
     <value>Ops! A senha é obrigatória.</value>
