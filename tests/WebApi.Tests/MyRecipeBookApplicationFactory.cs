@@ -15,6 +15,8 @@ public class MyRecipeBookApplicationFactory : WebApplicationFactory<Program>, IA
 {
     public UserIdentityManager User1 { get; private set; } = default!;
 
+    public string TOKEN_USER_NOT_FOUND_IN_DATABASE { get; private set; } = string.Empty;
+
     private readonly MySqlContainer _mySqlContainer;
 
     public MyRecipeBookApplicationFactory()
@@ -58,6 +60,8 @@ public class MyRecipeBookApplicationFactory : WebApplicationFactory<Program>, IA
         var user1AccessToken = accessTokenGenerator.Generate(user);
 
         User1 = new UserIdentityManager(user, password, user1AccessToken);
+
+        TOKEN_USER_NOT_FOUND_IN_DATABASE = accessTokenGenerator.Generate(new MyRecipeBook.Domain.Entities.User());
     }
 
     Task IAsyncLifetime.DisposeAsync() => _mySqlContainer.StopAsync();

@@ -102,4 +102,26 @@ public class RegisterUserAccountValidatorTests
             errors.ShouldContain(error => error.ErrorMessage.Equals(ResourceMessagesException.VALIDATION_EMAIL_INVALID));
         });
     }
+
+    [Theory]
+    [InlineData(1)]
+    [InlineData(2)]
+    [InlineData(3)]
+    [InlineData(4)]
+    [InlineData(5)]
+    public void Validate_ShouldHaveError_WhenPasswordIsInvalid(int passwordLength)
+    {
+        var validator = new RegisterUserAccountValidator();
+
+        var request = RequestRegisterUserAccountJsonBuilder.Build(passwordLength);
+
+        var result = validator.Validate(request);
+
+        result.IsValid.ShouldBeFalse();
+        result.Errors.ShouldSatisfyAllConditions(errors =>
+        {
+            errors.Count.ShouldBe(1);
+            errors.ShouldContain(e => e.ErrorMessage.Equals(ResourceMessagesException.VALIDATION_PASSWORD_MIN_LENGTH));
+        });
+    }
 }
