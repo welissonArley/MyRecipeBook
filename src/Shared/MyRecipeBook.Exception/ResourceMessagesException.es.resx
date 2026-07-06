@@ -150,4 +150,37 @@
   <data name="VALIDATION_RESOURCE_ACCESS_DENIED" xml:space="preserve">
     <value>¡Ups! No tienes acceso a este recurso.</value>
   </data>
+  <data name="VALIDATION_TITLE_REQUIRED" xml:space="preserve">
+    <value>¡Ups! El título es obligatorio.</value>
+  </data>
+  <data name="VALIDATION_TITLE_MAX_LENGTH" xml:space="preserve">
+    <value>¡Ups! El título debe tener como máximo 250 caracteres.</value>
+  </data>
+  <data name="VALIDATION_COOK_TIME_INVALID" xml:space="preserve">
+    <value>¡Ups! El tiempo de preparación seleccionado no es válido.</value>
+  </data>
+  <data name="VALIDATION_DISH_TYPE_INVALID" xml:space="preserve">
+    <value>¡Ups! Uno de los tipos de plato seleccionados no es válido.</value>
+  </data>
+  <data name="VALIDATION_AT_LEAST_ONE_INGREDIENT" xml:space="preserve">
+    <value>¡Ups! Debes agregar al menos un ingrediente.</value>
+  </data>
+  <data name="VALIDATION_INGREDIENT_EMPTY" xml:space="preserve">
+    <value>¡Ups! El ingrediente no puede estar vacío.</value>
+  </data>
+  <data name="VALIDATION_INGREDIENT_MAX_LENGTH" xml:space="preserve">
+    <value>¡Ups! El ingrediente debe tener como máximo 250 caracteres.</value>
+  </data>
+  <data name="VALIDATION_AT_LEAST_ONE_INSTRUCTION" xml:space="preserve">
+    <value>¡Ups! Debes agregar al menos una instrucción.</value>
+  </data>
+  <data name="VALIDATION_INSTRUCTION_ORDER_INVALID" xml:space="preserve">
+    <value>¡Ups! El orden de la instrucción debe ser mayor que cero.</value>
+  </data>
+  <data name="VALIDATION_INSTRUCTION_DESCRIPTION_REQUIRED" xml:space="preserve">
+    <value>¡Ups! La descripción de la instrucción es obligatoria.</value>
+  </data>
+  <data name="VALIDATION_INSTRUCTION_DESCRIPTION_MAX_LENGTH" xml:space="preserve">
+    <value>¡Ups! La descripción de la instrucción debe tener como máximo 2000 caracteres.</value>
+  </data>
 </root>

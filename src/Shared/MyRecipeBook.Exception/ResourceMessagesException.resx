@@ -150,4 +150,37 @@
   <data name="VALIDATION_RESOURCE_ACCESS_DENIED" xml:space="preserve">
     <value>Oops! You don’t have access to this resource.</value>
   </data>
+  <data name="VALIDATION_TITLE_REQUIRED" xml:space="preserve">
+    <value>Oops! Title is required.</value>
+  </data>
+  <data name="VALIDATION_TITLE_MAX_LENGTH" xml:space="preserve">
+    <value>Oops! Title must be at most 250 characters long.</value>
+  </data>
+  <data name="VALIDATION_COOK_TIME_INVALID" xml:space="preserve">
+    <value>Oops! The selected cook time is not valid.</value>
+  </data>
+  <data name="VALIDATION_DISH_TYPE_INVALID" xml:space="preserve">
+    <value>Oops! One of the selected dish types is not valid.</value>
+  </data>
+  <data name="VALIDATION_AT_LEAST_ONE_INGREDIENT" xml:space="preserve">
+    <value>Oops! You must add at least one ingredient.</value>
+  </data>
+  <data name="VALIDATION_INGREDIENT_EMPTY" xml:space="preserve">
+    <value>Oops! Ingredient cannot be empty.</value>
+  </data>
+  <data name="VALIDATION_INGREDIENT_MAX_LENGTH" xml:space="preserve">
+    <value>Oops! Ingredient must be at most 250 characters long.</value>
+  </data>
+  <data name="VALIDATION_AT_LEAST_ONE_INSTRUCTION" xml:space="preserve">
+    <value>Oops! You must add at least one instruction.</value>
+  </data>
+  <data name="VALIDATION_INSTRUCTION_ORDER_INVALID" xml:space="preserve">
+    <value>Oops! Instruction order must be greater than zero.</value>
+  </data>
+  <data name="VALIDATION_INSTRUCTION_DESCRIPTION_REQUIRED" xml:space="preserve">
+    <value>Oops! Instruction description is required.</value>
+  </data>
+  <data name="VALIDATION_INSTRUCTION_DESCRIPTION_MAX_LENGTH" xml:space="preserve">
+    <value>Oops! Instruction description must be at most 2000 characters long.</value>
+  </data>
 </root>
