@@ -257,5 +257,23 @@ namespace MyRecipeBook.Exception {
                 return ResourceManager.GetString("VALIDATION_INSTRUCTION_DESCRIPTION_MAX_LENGTH", resourceCulture);
             }
         }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Oops! You must add at least one dish type..
+        /// </summary>
+        public static string VALIDATION_AT_LEAST_ONE_DISH_TYPE {
+            get {
+                return ResourceManager.GetString("VALIDATION_AT_LEAST_ONE_DISH_TYPE", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Oops! Two or more instructions have the same order..
+        /// </summary>
+        public static string VALIDATION_INSTRUCTION_ORDER_DUPLICATED {
+            get {
+                return ResourceManager.GetString("VALIDATION_INSTRUCTION_ORDER_DUPLICATED", resourceCulture);
+            }
+        }
     }
 }

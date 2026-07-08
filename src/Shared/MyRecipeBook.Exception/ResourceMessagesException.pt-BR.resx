@@ -183,4 +183,10 @@
   <data name="VALIDATION_INSTRUCTION_DESCRIPTION_MAX_LENGTH" xml:space="preserve">
     <value>Ops! A descrição da instrução deve ter no máximo 2000 caracteres.</value>
   </data>
+  <data name="VALIDATION_AT_LEAST_ONE_DISH_TYPE" xml:space="preserve">
+    <value>Ops! Você deve adicionar pelo menos um tipo de prato.</value>
+  </data>
+  <data name="VALIDATION_INSTRUCTION_ORDER_DUPLICATED" xml:space="preserve">
+    <value>Ops! Duas ou mais instruções têm a mesma ordem.</value>
+  </data>
 </root>
