@@ -12,7 +12,7 @@ public class Version0000002 : ForwardOnlyMigration
             .WithColumn("Id").AsGuid().PrimaryKey().NotNullable()
             .WithColumn("Active").AsBoolean().NotNullable().WithDefaultValue(true)
             .WithColumn("Title").AsString(250).NotNullable()
-            .WithColumn("CookTime").AsInt32().NotNullable()
+            .WithColumn("CookTime").AsString(50).NotNullable()
             .WithColumn("UserId").AsGuid().NotNullable()
                 .ForeignKey("FK_Recipes_Users_UserId", "Users", "Id");
 
@@ -34,7 +34,7 @@ public class Version0000002 : ForwardOnlyMigration
         Create.Table("RecipeDishTypes")
             .WithColumn("Id").AsGuid().PrimaryKey().NotNullable()
             .WithColumn("Active").AsBoolean().NotNullable().WithDefaultValue(true)
-            .WithColumn("Type").AsInt32().NotNullable()
+            .WithColumn("Type").AsString(50).NotNullable()
             .WithColumn("RecipeId").AsGuid().NotNullable()
                 .ForeignKey("FK_RecipeDishTypes_Recipes_RecipeId", "Recipes", "Id").OnDelete(Rule.Cascade);
     }
