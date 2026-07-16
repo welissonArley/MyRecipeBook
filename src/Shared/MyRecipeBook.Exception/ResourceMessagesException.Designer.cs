@@ -79,11 +79,56 @@ namespace MyRecipeBook.Exception {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Oops! You must add at least one dish type..
+        /// </summary>
+        public static string VALIDATION_AT_LEAST_ONE_DISH_TYPE {
+            get {
+                return ResourceManager.GetString("VALIDATION_AT_LEAST_ONE_DISH_TYPE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Oops! You must add at least one ingredient..
+        /// </summary>
+        public static string VALIDATION_AT_LEAST_ONE_INGREDIENT {
+            get {
+                return ResourceManager.GetString("VALIDATION_AT_LEAST_ONE_INGREDIENT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Oops! You must add at least one instruction..
+        /// </summary>
+        public static string VALIDATION_AT_LEAST_ONE_INSTRUCTION {
+            get {
+                return ResourceManager.GetString("VALIDATION_AT_LEAST_ONE_INSTRUCTION", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Oops! The selected cook time is not valid..
+        /// </summary>
+        public static string VALIDATION_COOK_TIME_INVALID {
+            get {
+                return ResourceManager.GetString("VALIDATION_COOK_TIME_INVALID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The current password is incorrect..
         /// </summary>
         public static string VALIDATION_CURRENT_PASSWORD {
             get {
                 return ResourceManager.GetString("VALIDATION_CURRENT_PASSWORD", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Oops! One of the selected dish types is not valid..
+        /// </summary>
+        public static string VALIDATION_DISH_TYPE_INVALID {
+            get {
+                return ResourceManager.GetString("VALIDATION_DISH_TYPE_INVALID", resourceCulture);
             }
         }
         
@@ -111,6 +156,60 @@ namespace MyRecipeBook.Exception {
         public static string VALIDATION_EMAIL_REQUIRED {
             get {
                 return ResourceManager.GetString("VALIDATION_EMAIL_REQUIRED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Oops! Ingredient cannot be empty..
+        /// </summary>
+        public static string VALIDATION_INGREDIENT_EMPTY {
+            get {
+                return ResourceManager.GetString("VALIDATION_INGREDIENT_EMPTY", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Oops! Ingredient must be at most 250 characters long..
+        /// </summary>
+        public static string VALIDATION_INGREDIENT_MAX_LENGTH {
+            get {
+                return ResourceManager.GetString("VALIDATION_INGREDIENT_MAX_LENGTH", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Oops! Instruction description must be at most 2000 characters long..
+        /// </summary>
+        public static string VALIDATION_INSTRUCTION_DESCRIPTION_MAX_LENGTH {
+            get {
+                return ResourceManager.GetString("VALIDATION_INSTRUCTION_DESCRIPTION_MAX_LENGTH", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Oops! Instruction description is required..
+        /// </summary>
+        public static string VALIDATION_INSTRUCTION_DESCRIPTION_REQUIRED {
+            get {
+                return ResourceManager.GetString("VALIDATION_INSTRUCTION_DESCRIPTION_REQUIRED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Oops! Two or more instructions have the same order..
+        /// </summary>
+        public static string VALIDATION_INSTRUCTION_ORDER_DUPLICATED {
+            get {
+                return ResourceManager.GetString("VALIDATION_INSTRUCTION_ORDER_DUPLICATED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Oops! Instruction order must be greater than zero..
+        /// </summary>
+        public static string VALIDATION_INSTRUCTION_ORDER_INVALID {
+            get {
+                return ResourceManager.GetString("VALIDATION_INSTRUCTION_ORDER_INVALID", resourceCulture);
             }
         }
         
@@ -151,6 +250,15 @@ namespace MyRecipeBook.Exception {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Oops! We couldn’t find this recipe..
+        /// </summary>
+        public static string VALIDATION_RECIPE_NOT_FOUND {
+            get {
+                return ResourceManager.GetString("VALIDATION_RECIPE_NOT_FOUND", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Oops! You don’t have access to this resource..
         /// </summary>
         public static string VALIDATION_RESOURCE_ACCESS_DENIED {
@@ -158,16 +266,7 @@ namespace MyRecipeBook.Exception {
                 return ResourceManager.GetString("VALIDATION_RESOURCE_ACCESS_DENIED", resourceCulture);
             }
         }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Oops! Title is required..
-        /// </summary>
-        public static string VALIDATION_TITLE_REQUIRED {
-            get {
-                return ResourceManager.GetString("VALIDATION_TITLE_REQUIRED", resourceCulture);
-            }
-        }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Oops! Title must be at most 250 characters long..
         /// </summary>
@@ -176,103 +275,13 @@ namespace MyRecipeBook.Exception {
                 return ResourceManager.GetString("VALIDATION_TITLE_MAX_LENGTH", resourceCulture);
             }
         }
-
+        
         /// <summary>
-        ///   Looks up a localized string similar to Oops! The selected cook time is not valid..
+        ///   Looks up a localized string similar to Oops! Title is required..
         /// </summary>
-        public static string VALIDATION_COOK_TIME_INVALID {
+        public static string VALIDATION_TITLE_REQUIRED {
             get {
-                return ResourceManager.GetString("VALIDATION_COOK_TIME_INVALID", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Oops! One of the selected dish types is not valid..
-        /// </summary>
-        public static string VALIDATION_DISH_TYPE_INVALID {
-            get {
-                return ResourceManager.GetString("VALIDATION_DISH_TYPE_INVALID", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Oops! You must add at least one ingredient..
-        /// </summary>
-        public static string VALIDATION_AT_LEAST_ONE_INGREDIENT {
-            get {
-                return ResourceManager.GetString("VALIDATION_AT_LEAST_ONE_INGREDIENT", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Oops! Ingredient cannot be empty..
-        /// </summary>
-        public static string VALIDATION_INGREDIENT_EMPTY {
-            get {
-                return ResourceManager.GetString("VALIDATION_INGREDIENT_EMPTY", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Oops! Ingredient must be at most 250 characters long..
-        /// </summary>
-        public static string VALIDATION_INGREDIENT_MAX_LENGTH {
-            get {
-                return ResourceManager.GetString("VALIDATION_INGREDIENT_MAX_LENGTH", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Oops! You must add at least one instruction..
-        /// </summary>
-        public static string VALIDATION_AT_LEAST_ONE_INSTRUCTION {
-            get {
-                return ResourceManager.GetString("VALIDATION_AT_LEAST_ONE_INSTRUCTION", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Oops! Instruction order must be greater than zero..
-        /// </summary>
-        public static string VALIDATION_INSTRUCTION_ORDER_INVALID {
-            get {
-                return ResourceManager.GetString("VALIDATION_INSTRUCTION_ORDER_INVALID", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Oops! Instruction description is required..
-        /// </summary>
-        public static string VALIDATION_INSTRUCTION_DESCRIPTION_REQUIRED {
-            get {
-                return ResourceManager.GetString("VALIDATION_INSTRUCTION_DESCRIPTION_REQUIRED", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Oops! Instruction description must be at most 2000 characters long..
-        /// </summary>
-        public static string VALIDATION_INSTRUCTION_DESCRIPTION_MAX_LENGTH {
-            get {
-                return ResourceManager.GetString("VALIDATION_INSTRUCTION_DESCRIPTION_MAX_LENGTH", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Oops! You must add at least one dish type..
-        /// </summary>
-        public static string VALIDATION_AT_LEAST_ONE_DISH_TYPE {
-            get {
-                return ResourceManager.GetString("VALIDATION_AT_LEAST_ONE_DISH_TYPE", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Oops! Two or more instructions have the same order..
-        /// </summary>
-        public static string VALIDATION_INSTRUCTION_ORDER_DUPLICATED {
-            get {
-                return ResourceManager.GetString("VALIDATION_INSTRUCTION_ORDER_DUPLICATED", resourceCulture);
+                return ResourceManager.GetString("VALIDATION_TITLE_REQUIRED", resourceCulture);
             }
         }
     }

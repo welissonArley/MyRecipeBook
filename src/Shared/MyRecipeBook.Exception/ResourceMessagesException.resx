@@ -189,4 +189,7 @@
   <data name="VALIDATION_INSTRUCTION_ORDER_DUPLICATED" xml:space="preserve">
     <value>Oops! Two or more instructions have the same order.</value>
   </data>
+  <data name="VALIDATION_RECIPE_NOT_FOUND" xml:space="preserve">
+    <value>Oops! We couldn’t find this recipe.</value>
+  </data>
 </root>
