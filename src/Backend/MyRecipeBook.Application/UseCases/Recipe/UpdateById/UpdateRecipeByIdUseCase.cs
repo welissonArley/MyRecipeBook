@@ -1,4 +1,5 @@
-﻿using MyRecipeBook.Communication.Requests;
+﻿using Mapster;
+using MyRecipeBook.Communication.Requests;
 using MyRecipeBook.Domain.Identity;
 using MyRecipeBook.Domain.Repositories;
 using MyRecipeBook.Domain.Repositories.Recipe;
@@ -28,7 +29,7 @@ public class UpdateRecipeByIdUseCase : IUpdateRecipeByIdUseCase
         if (recipe is null)
             throw new NotFoundException(ResourceMessagesException.VALIDATION_RECIPE_NOT_FOUND);
 
-        //TODO: ATUALIZAÇÃO DE PROPRIEDADES DO RECEITA AQUI
+        request.Adapt(recipe);
 
         await _unitOfWork.Commit();
     }
