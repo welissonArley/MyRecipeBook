@@ -31,7 +31,7 @@ internal sealed class RecipeRepository : IRecipeWriteOnlyRepository, IRecipeRead
         return rows > 0;
     }
 
-    public async Task<IList<Recipe>> FilterRecipes(Guid userId, RecipeFilterDto filter)
+    public async Task<IList<RecipeSummaryDto>> FilterRecipes(Guid userId, RecipeFilterDto filter)
     {
         var query = _dbContext
             .Recipes
@@ -54,10 +54,10 @@ internal sealed class RecipeRepository : IRecipeWriteOnlyRepository, IRecipeRead
             query = recipesWithDishTypes;
         }
 
-        return await query.ToListAsync();
+        return await query.Select(recipe => new RecipeSummaryDto(recipe.Id, recipe.Title)).ToListAsync();
     }
 
-    public async Task<IList<Recipe>> GetRecentRecipes(Guid userId)
+    public async Task<IList<RecipeSummaryDto>> GetRecentRecipes(Guid userId)
     {
         return await _dbContext
             .Recipes
@@ -65,6 +65,7 @@ internal sealed class RecipeRepository : IRecipeWriteOnlyRepository, IRecipeRead
             .Where(recipe => recipe.Active && recipe.UserId == userId)
             .OrderByDescending(recipe => recipe.Id)
             .Take(6)
+            .Select(recipe => new RecipeSummaryDto(recipe.Id, recipe.Title))
             .ToListAsync();
     }
 
