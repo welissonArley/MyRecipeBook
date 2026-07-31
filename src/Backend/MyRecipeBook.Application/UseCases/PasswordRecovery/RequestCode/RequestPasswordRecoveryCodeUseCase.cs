@@ -41,7 +41,7 @@ public class RequestPasswordRecoveryCodeUseCase : IRequestPasswordRecoveryCodeUs
 
         //TODO: Send email with the code
 
-        await _verificationCodeWriteOnlyRepository.Add(verificationCode);
+        await _verificationCodeWriteOnlyRepository.Replace(verificationCode);
 
         await _unitOfWork.Commit();
     }

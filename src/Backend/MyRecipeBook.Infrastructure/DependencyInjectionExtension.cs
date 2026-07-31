@@ -65,6 +65,7 @@ public static class DependencyInjectionExtension
             services.AddScoped<IRecipeUpdateOnlyRepository, RecipeRepository>();
 
             services.AddScoped<IVerificationCodeWriteOnlyRepository, VerificationCodeRepository>();
+            services.AddScoped<IVerificationCodeReadOnlyRepository, VerificationCodeRepository>();
         }
 
         private void AddSecurity(IConfiguration configuration)

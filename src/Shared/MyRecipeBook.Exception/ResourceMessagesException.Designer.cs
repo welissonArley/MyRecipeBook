@@ -124,6 +124,15 @@ namespace MyRecipeBook.Exception {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Invalid or expired code..
+        /// </summary>
+        public static string VERIFICATION_CODE_INVALID {
+            get {
+                return ResourceManager.GetString("VERIFICATION_CODE_INVALID", resourceCulture);
+            }
+        }
+
+        /// <summary>
         ///   Looks up a localized string similar to Oops! One of the selected dish types is not valid..
         /// </summary>
         public static string VALIDATION_DISH_TYPE_INVALID {

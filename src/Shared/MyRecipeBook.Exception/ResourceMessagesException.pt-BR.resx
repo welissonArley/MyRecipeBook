@@ -120,6 +120,9 @@
   <data name="VALIDATION_CURRENT_PASSWORD" xml:space="preserve">
     <value>A senha atual informada está incorreta.</value>
   </data>
+  <data name="VERIFICATION_CODE_INVALID" xml:space="preserve">
+    <value>Código inválido ou expirado.</value>
+  </data>
   <data name="UNKNOWN_ERROR" xml:space="preserve">
     <value>Erro desconhecido.</value>
   </data>
