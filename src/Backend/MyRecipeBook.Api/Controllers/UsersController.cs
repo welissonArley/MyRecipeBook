@@ -60,4 +60,13 @@ public class UsersController : ControllerBase
 
         return NoContent();
     }
+
+    [HttpPut("profile-picture")]
+    [Authorize]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> ChangeProfilePicture(IFormFile profilePicture)
+    {
+        return NoContent();
+    }
 }
