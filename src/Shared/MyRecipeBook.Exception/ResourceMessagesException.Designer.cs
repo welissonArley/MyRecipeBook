@@ -133,6 +133,15 @@ namespace MyRecipeBook.Exception {
         }
 
         /// <summary>
+        ///   Looks up a localized string similar to Only PNG or JPG/JPEG images are accepted..
+        /// </summary>
+        public static string VALIDATION_ONLY_IMAGES_ACCEPTED {
+            get {
+                return ResourceManager.GetString("VALIDATION_ONLY_IMAGES_ACCEPTED", resourceCulture);
+            }
+        }
+
+        /// <summary>
         ///   Looks up a localized string similar to Oops! One of the selected dish types is not valid..
         /// </summary>
         public static string VALIDATION_DISH_TYPE_INVALID {

@@ -123,6 +123,9 @@
   <data name="VERIFICATION_CODE_INVALID" xml:space="preserve">
     <value>Código inválido ou expirado.</value>
   </data>
+  <data name="VALIDATION_ONLY_IMAGES_ACCEPTED" xml:space="preserve">
+    <value>Apenas imagens PNG ou JPG/JPEG são aceitas.</value>
+  </data>
   <data name="UNKNOWN_ERROR" xml:space="preserve">
     <value>Erro desconhecido.</value>
   </data>
