@@ -2,15 +2,32 @@
 
 ![hero-project-image]
 
+## Índice
+
+- [Sobre o projeto](#sobre-o-projeto)
+- [Curso na Udemy](#curso-na-udemy)
+- [O que você vai aprender no curso](#o-que-você-vai-aprender-no-curso)
+- [Features](#features)
+- [Construído com](#construído-com)
+- [Arquitetura](#arquitetura)
+- [CI/CD e qualidade de código](#cicd-e-qualidade-de-código)
+- [Como executar o projeto](#como-executar-o-projeto)
+- [Instalação](#instalação)
+- [Executando os testes](#executando-os-testes)
+- [Licença](#licença)
+- [Autor](#autor)
+
+---
+
 ## Sobre o projeto
 
 **Meu Livro de Receitas** é uma API desenvolvida em **.NET** para gerenciamento de receitas culinárias.
 
-A aplicação permite que usuários se cadastrem, façam login e gerenciem suas próprias receitas de forma simples e organizada. Cada receita pode conter título, ingredientes, modo de preparo, tempo de preparo, nível de dificuldade e uma imagem ilustrativa.
+A aplicação permite que usuários se cadastrem, façam login e gerenciem suas próprias receitas de forma simples e organizada. Cada receita pode conter título, ingredientes, modo de preparo, tempo de preparo e uma imagem ilustrativa.
 
-Além do CRUD de receitas, o projeto também aborda recursos comuns em aplicações reais, como autenticação com JWT, Refresh Token, login com Google, upload de imagens, integração com IA, mensageria, testes automatizados, pipelines CI/CD e análise de cobertura de código.
+Além do CRUD de receitas, o projeto também aborda recursos comuns em aplicações reais, como autenticação com JWT, Refresh Token, login com Google, upload de imagens, integração com IA, mensageria, testes automatizados, pipelines CI/CD, deploy no Azure e análise de cobertura de código.
 
-Este projeto foi criado com foco em boas práticas de desenvolvimento backend, organização de código e construção de uma API próxima do que é utilizado no mercado de trabalho.
+Este projeto foi criado com foco em boas práticas de desenvolvimento backend e organização de código.
 
 ---
 
@@ -20,7 +37,7 @@ Este projeto foi criado com foco em boas práticas de desenvolvimento backend, o
 
 Este repositório faz parte do curso **.NET Core: um curso orientado para o mercado de trabalho**, disponível na Udemy.
 
-Durante o curso, construímos uma API completa do zero, passando por arquitetura, banco de dados, autenticação, testes, Docker, Azure DevOps, pipelines, SonarCloud e boas práticas de desenvolvimento.
+Durante o curso, construímos uma API completa do zero, passando por arquitetura, banco de dados, autenticação, testes, Docker, Azure DevOps, pipelines e boas práticas de desenvolvimento.
 
 O curso é indicado para pessoas que já possuem conhecimento em lógica de programação e C#, e querem aprender a desenvolver APIs mais completas, organizadas e preparadas para cenários reais.
 
@@ -32,36 +49,35 @@ Para acessar o curso, clique [neste link][curso-udemy].
 
 ## O que você vai aprender no curso
 
-Durante o curso, você aprenderá a:
+Durante o curso, você aprenderá conceitos, técnicas e ferramentas usados em projetos reais:
 
 - Criar uma API REST com .NET
-- Estruturar uma solução usando conceitos de DDD
-- Aplicar princípios de SOLID
-- Trabalhar com Entity Framework
-- Criar cadastro e autenticação de usuários
-- Implementar JWT e Refresh Token
-- Integrar login com Google
-- Criar CRUD completo de receitas
-- Fazer upload de imagens
-- Integrar a API com AI
-- Utilizar mensageria com Azure Service Bus
-- Criar testes de unidade
-- Criar testes de integração
-- Usar Testcontainers para os testes de integração
+- Estruturar uma solução com DDD e princípios SOLID
+- Trabalhar com Entity Framework e migrations
+- Implementar autenticação com JWT, Refresh Token e login com Google
+- Integrar recursos externos: IA e mensageria com Azure Service Bus
+- Escrever testes de unidade e de integração usando Testcontainers
 - Configurar Docker no ambiente de desenvolvimento
-- Criar pipelines no Azure DevOps
-- Publicar cobertura de testes no pipeline
-- Organizar o desenvolvimento usando práticas de SCRUM
+- Criar pipelines no Azure DevOps com publicação de cobertura de testes
+- Fazer deploy da aplicação em produção no Microsoft Azure
+- Trabalhar em fluxo de time com Git, Pull Requests e políticas de branch
+- Organizar o trabalho com práticas de SCRUM
+- Usar o Claude Code como assistente de IA no desenvolvimento
 
 ---
 
 ## Features
 
+A API oferece as seguintes funcionalidades:
+
 - **Cadastro de usuários**  
   Permite que usuários criem uma conta utilizando nome, e-mail e senha.
 
 - **Autenticação segura**  
-  Implementação de autenticação com JWT e Refresh Token.
+  Implementação de autenticação com JWT e Refresh Token, com senhas protegidas por hashing Argon2.
+
+- **Recuperação de senha**  
+  Redefinição de senha através de código de verificação enviado ao usuário.
 
 - **Login com Google**  
   Integração com autenticação via conta Google.
@@ -70,7 +86,7 @@ Durante o curso, você aprenderá a:
   Criação, edição, exclusão, listagem e filtro de receitas.
 
 - **Upload de imagem**  
-  Permite adicionar uma imagem ilustrativa para cada receita.
+  Permite adicionar uma imagem ilustrativa para cada receita, com validação do tipo real do arquivo via FileTypeChecker.
 
 - **Integração com AI**  
   Geração de receitas completas com imagens, com o apoio de inteligência artificial.
@@ -86,9 +102,6 @@ Durante o curso, você aprenderá a:
 
 - **CI/CD**  
   Pipeline configurado no Azure DevOps com build, testes e análise de cobertura.
-
-- **Análise de cobertura de código**  
-  Visualização e interpretação da cobertura de testes para identificar partes do código que precisam de mais validação.
 
 ---
 
@@ -144,13 +157,13 @@ Contém os projetos principais da API e concentra as regras, fluxos e integraç�
   Responsável por expor os endpoints, configurar middlewares, autenticação, documentação com Swagger e inicialização da aplicação.
 
 - **Application**
-  Contém os casos de uso da aplicação (Regras de negócio) com as validações e transormações necessárias para executar os fluxos do sistema.
+  Contém os casos de uso da aplicação (Regras de negócio) com as validações e transformações necessárias para executar os fluxos do sistema.
 
 - **Domain**
   Contém entidades e contratos principais.
 
 - **Infrastructure**
-  Responsável por implementações externas, como acesso ao banco de dados, serviços de autenticação, envio de e-mails, integrações e persistência.
+  Responsável por implementações externas, como acesso ao banco de dados, migrations com FluentMigrator, serviços de autenticação, envio de e-mails, integrações e persistência.
 
 #### Shared
 
@@ -192,7 +205,7 @@ Para executar o projeto localmente, siga os passos abaixo.
 ### Requisitos
 
 - Visual Studio 2026 ou Rider
-- .NET SDK
+- [.NET SDK][dot-net-sdk]
 - Docker Desktop
 - MySQL Server ou SQL Server
 - Git
@@ -213,7 +226,21 @@ Acesse a pasta do projeto:
 cd MyRecipeBook
 ```
 
-Configure o arquivo `appsettings.Development.json` com as informações necessárias, como conexão com banco de dados, JWT, Google, Azure Service Bus e OpenAI, conforme os recursos que deseja executar.
+Configure o arquivo `appsettings.Development.json` com as informações necessárias. As chaves utilizadas atualmente são:
+
+```json
+{
+  "ConnectionStrings": {
+    "DbConnection": "Server=localhost;Database=meulivrodereceitas;Uid=root;Pwd=sua_senha;"
+  },
+  "Jwt": {
+    "SigningKey": "sua-chave-secreta-com-no-minimo-32-caracteres",
+    "ExpirationTimeMinutes": 1000
+  }
+}
+```
+
+Conforme o curso avança, outras chaves são adicionadas (Google, Azure Service Bus e OpenAI) de acordo com os recursos que deseja executar.
 
 Depois, execute a API pelo Visual Studio ou usando o comando:
 
