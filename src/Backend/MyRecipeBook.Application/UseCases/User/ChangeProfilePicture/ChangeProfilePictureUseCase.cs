@@ -1,5 +1,5 @@
-﻿using FileTypeChecker.Extensions;
-using FileTypeChecker.Types;
+﻿using MyRecipeBook.Application.Extensions;
+using MyRecipeBook.Domain.Extensions;
 using MyRecipeBook.Domain.Identity;
 using MyRecipeBook.Exception;
 using MyRecipeBook.Exception.ExceptionsBase;
@@ -17,8 +17,8 @@ public class ChangeProfilePictureUseCase : IChangeProfilePictureUseCase
 
     public async Task Execute(Stream profilePicture)
     {
-        var isImage = profilePicture.Is<PortableNetworkGraphic>() || profilePicture.Is<JointPhotographicExpertsGroup>();
-        if (isImage == false)
+        var contentType = profilePicture.DetectImageContentType();
+        if (contentType.IsEmpty())
             throw new ErrorOnValidationException([ResourceMessagesException.VALIDATION_ONLY_IMAGES_ACCEPTED]);
     }
 }
