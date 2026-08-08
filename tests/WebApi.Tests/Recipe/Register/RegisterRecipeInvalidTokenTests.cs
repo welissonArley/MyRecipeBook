@@ -20,7 +20,7 @@ public class RegisterRecipeInvalidTokenTests : BaseIntegrationTest
     {
         var request = new RequestRecipeJson();
 
-        var response = await Post(REQUEST_URI, request, accessToken: "tokenInvalid");
+        var response = await PostFormData(REQUEST_URI, request, accessToken: "tokenInvalid");
 
         response.StatusCode.ShouldBe(HttpStatusCode.Unauthorized);
     }
@@ -30,7 +30,7 @@ public class RegisterRecipeInvalidTokenTests : BaseIntegrationTest
     {
         var request = new RequestRecipeJson();
 
-        var response = await Post(REQUEST_URI, request, accessToken: string.Empty);
+        var response = await PostFormData(REQUEST_URI, request, accessToken: string.Empty);
 
         response.StatusCode.ShouldBe(HttpStatusCode.Unauthorized);
     }
@@ -40,7 +40,7 @@ public class RegisterRecipeInvalidTokenTests : BaseIntegrationTest
     {
         var request = new RequestRecipeJson();
 
-        var response = await Post(REQUEST_URI, request, _tokenUserNotExistDatabase);
+        var response = await PostFormData(REQUEST_URI, request, accessToken: _tokenUserNotExistDatabase);
 
         response.StatusCode.ShouldBe(HttpStatusCode.Unauthorized);
     }

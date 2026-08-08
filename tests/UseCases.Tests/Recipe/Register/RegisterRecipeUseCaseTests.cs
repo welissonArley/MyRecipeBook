@@ -1,4 +1,5 @@
 using CommonTestUtilities.Entities;
+using CommonTestUtilities.Files;
 using CommonTestUtilities.Identity;
 using CommonTestUtilities.Repositories;
 using CommonTestUtilities.Requests;
@@ -19,16 +20,78 @@ public class RegisterRecipeUseCaseTests
     }
 
     [Fact]
-    public async Task Success()
+    public async Task Success_WithoutImage()
     {
         var request = RequestRecipeJsonBuilder.Build();
 
         var useCase = CreateUseCase();
 
-        var result = await useCase.Execute(request);
+        var result = await useCase.Execute(request, recipeIllustration: null);
 
         result.ShouldNotBeNull();
         result.Title.ShouldBe(request.Title);
+    }
+
+    [Fact]
+    public async Task Success_WhenImageIsPng()
+    {
+        var request = RequestRecipeJsonBuilder.Build();
+
+        var useCase = CreateUseCase();
+
+        var result = await useCase.Execute(request, recipeIllustration: FileBuilder.GetPng());
+
+        result.ShouldNotBeNull();
+        result.Title.ShouldBe(request.Title);
+    }
+
+    [Fact]
+    public async Task Success_WhenImageIsJpeg()
+    {
+        var request = RequestRecipeJsonBuilder.Build();
+
+        var useCase = CreateUseCase();
+
+        var result = await useCase.Execute(request, recipeIllustration: FileBuilder.GetJpeg());
+
+        result.ShouldNotBeNull();
+        result.Title.ShouldBe(request.Title);
+    }
+
+    [Fact]
+    public async Task Error_WhenImageIsBmp()
+    {
+        var request = RequestRecipeJsonBuilder.Build();
+
+        var useCase = CreateUseCase();
+
+        var exception = await useCase.Execute(request, recipeIllustration: FileBuilder.GetBmp()).ShouldThrowAsync<ErrorOnValidationException>();
+
+        exception.GetStatusCode().ShouldBe(HttpStatusCode.BadRequest);
+
+        exception.GetErrorMessages().ShouldSatisfyAllConditions(errorMessages =>
+        {
+            errorMessages.Count.ShouldBe(1);
+            errorMessages.ShouldContain(ResourceMessagesException.VALIDATION_ONLY_IMAGES_ACCEPTED);
+        });
+    }
+
+    [Fact]
+    public async Task Error_WhenImageIsTxt()
+    {
+        var request = RequestRecipeJsonBuilder.Build();
+
+        var useCase = CreateUseCase();
+
+        var exception = await useCase.Execute(request, recipeIllustration: FileBuilder.GetTxt()).ShouldThrowAsync<ErrorOnValidationException>();
+
+        exception.GetStatusCode().ShouldBe(HttpStatusCode.BadRequest);
+
+        exception.GetErrorMessages().ShouldSatisfyAllConditions(errorMessages =>
+        {
+            errorMessages.Count.ShouldBe(1);
+            errorMessages.ShouldContain(ResourceMessagesException.VALIDATION_ONLY_IMAGES_ACCEPTED);
+        });
     }
 
     [Fact]
@@ -39,7 +102,7 @@ public class RegisterRecipeUseCaseTests
 
         var useCase = CreateUseCase();
 
-        var exception = await useCase.Execute(request).ShouldThrowAsync<ErrorOnValidationException>();
+        var exception = await useCase.Execute(request, recipeIllustration: null).ShouldThrowAsync<ErrorOnValidationException>();
 
         exception.GetStatusCode().ShouldBe(HttpStatusCode.BadRequest);
 

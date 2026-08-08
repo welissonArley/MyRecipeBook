@@ -7,6 +7,20 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\invalid-file.txt" />
+    <None Remove="Resources\invalid-image.bmp" />
+    <None Remove="Resources\valid-image.jpg" />
+    <None Remove="Resources\valid-image.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\invalid-file.txt" />
+    <EmbeddedResource Include="Resources\invalid-image.bmp" />
+    <EmbeddedResource Include="Resources\valid-image.jpg" />
+    <EmbeddedResource Include="Resources\valid-image.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Bogus" Version="35.6.5" />
     <PackageReference Include="Moq" Version="4.20.72" />
   </ItemGroup>
