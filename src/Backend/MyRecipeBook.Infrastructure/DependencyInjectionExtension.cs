@@ -1,4 +1,5 @@
-﻿using FluentMigrator.Runner;
+﻿using Azure.Storage.Blobs;
+using FluentMigrator.Runner;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -9,11 +10,13 @@ using MyRecipeBook.Domain.Repositories.User;
 using MyRecipeBook.Domain.Repositories.VerificationCode;
 using MyRecipeBook.Domain.Security.PasswordHashing;
 using MyRecipeBook.Domain.Security.Tokens;
+using MyRecipeBook.Domain.Storage;
 using MyRecipeBook.Infrastructure.DataAccess;
 using MyRecipeBook.Infrastructure.DataAccess.Repositories;
 using MyRecipeBook.Infrastructure.Identity;
 using MyRecipeBook.Infrastructure.Security.PasswordHashing;
 using MyRecipeBook.Infrastructure.Security.Tokens.Access;
+using MyRecipeBook.Infrastructure.Storage;
 using System.Reflection;
 
 namespace MyRecipeBook.Infrastructure;
@@ -29,6 +32,13 @@ public static class DependencyInjectionExtension
             services.AddSecurity(configuration);
 
             services.AddScoped<ILoggedUser, LoggedUser>();
+
+            services.AddScoped<IStorageService>(config =>
+            {
+                var connectionString = configuration.GetConnectionString("BlobStorage")!;
+
+                return new AzureStorageService(new BlobServiceClient(connectionString));
+            });
 
             services.AddDbContext<MyRecipeBookDbContext>(config =>
             {
