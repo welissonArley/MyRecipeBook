@@ -47,4 +47,12 @@ internal sealed class UserRepository : IUserWriteOnlyRepository, IUserReadOnlyRe
         _dbContext.Entry(user).Property(user => user.Name).IsModified = true;
         _dbContext.Entry(user).Property(user => user.Email).IsModified = true;
     }
+
+    public async Task UpdateProfilePictureStatus(Guid userId, bool hasProfilePicture)
+    {
+        await _dbContext
+            .Users
+            .Where(user => user.Id == userId)
+            .ExecuteUpdateAsync(setter => setter.SetProperty(user => user.HasImage, hasProfilePicture));
+    }
 }
