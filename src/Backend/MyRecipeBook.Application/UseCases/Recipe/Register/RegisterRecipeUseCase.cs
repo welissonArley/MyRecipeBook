@@ -38,11 +38,13 @@ public class RegisterRecipeUseCase : IRegisterRecipeUseCase
         var recipe = request.Adapt<Domain.Entities.Recipe>();
         recipe.UserId = _loggedUser.GetUserId();
 
-        if(recipeIllustration is not null)
+        if (recipeIllustration is not null)
         {
             var contentType = recipeIllustration.DetectImageContentType();
             if (contentType.IsEmpty())
                 throw new ErrorOnValidationException([ResourceMessagesException.VALIDATION_ONLY_IMAGES_ACCEPTED]);
+
+            recipe.HasImage = true;
 
             await _storageService.UploadIllustration(recipe, recipeIllustration, contentType);
         }
@@ -55,6 +57,7 @@ public class RegisterRecipeUseCase : IRegisterRecipeUseCase
         {
             Id = recipe.Id,
             Title = recipe.Title,
+            ImageUrl = recipe.HasImage ? _storageService.GetRecipeIllustrationUrl(userId: recipe.UserId, recipeId: recipe.Id) : string.Empty
         };
     }
 

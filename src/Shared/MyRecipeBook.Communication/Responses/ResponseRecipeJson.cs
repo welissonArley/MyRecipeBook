@@ -7,6 +7,7 @@ public class ResponseRecipeJson
     public Guid Id { get; set; }
     public string Title { get; set; } = string.Empty;
     public CookTime CookTime { get; set; }
+    public string ImageUrl { get; set; } = string.Empty;
     public IList<ResponseInstructionJson> Instructions { get; set; } = [];
     public IList<string> Ingredients { get; set; } = [];
     public IList<DishType> DishTypes { get; set; } = [];

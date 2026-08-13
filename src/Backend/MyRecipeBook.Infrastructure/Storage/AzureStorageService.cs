@@ -34,9 +34,9 @@ internal sealed class AzureStorageService : IStorageService
         return GenerateReadUrl(user.Id, ProfilePictureFileName, ProfilePictureExpirationInMinutes);
     }
 
-    public string GetIllustrationUrl(Recipe recipe)
+    public string GetRecipeIllustrationUrl(Guid userId, Guid recipeId)
     {
-        return GenerateReadUrl(recipe.UserId, recipe.Id.ToString(), RecipeIllustrationExpirationInMinutes);
+        return GenerateReadUrl(userId, recipeId.ToString(), RecipeIllustrationExpirationInMinutes);
     }
 
     private async Task Upload(Guid userId, Stream file, string blobName, string contentType)
