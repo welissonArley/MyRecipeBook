@@ -8,4 +8,6 @@ public interface IStorageService
     Task UploadIllustration(Recipe recipe, Stream file, string contentType);
     string GetProfilePictureUrl(User user);
     string GetRecipeIllustrationUrl(Guid userId, Guid recipeId);
+    Task DeleteUserFiles(User user);
+    Task DeleteRecipeIllustration(Guid userId, Guid recipeId);
 }
