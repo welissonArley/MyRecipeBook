@@ -2,6 +2,7 @@
 using CommonTestUtilities.Repositories;
 using CommonTestUtilities.Requests;
 using CommonTestUtilities.Security;
+using CommonTestUtilities.Storage;
 using MyRecipeBook.Application.UseCases.Login.WithEmailAndPassword;
 using MyRecipeBook.Domain.Extensions;
 using MyRecipeBook.Exception;
@@ -13,10 +14,13 @@ namespace UseCases.Tests.Login.WithEmailAndPassword;
 
 public class LoginWithEmailAndPasswordUseCaseTests
 {
-    [Fact]
-    public async Task Success()
+    [Theory]
+    [InlineData(true, IStorageServiceBuilder.FakeUrl)]
+    [InlineData(false, "")]
+    public async Task Success(bool hasImage, string expectedUrl)
     {
         var (user, _) = UserBuilder.Build();
+        user.HasImage = hasImage;
 
         var request = RequestLoginJsonBuilder.Build();
         request.Email = user.Email;
@@ -30,6 +34,7 @@ public class LoginWithEmailAndPasswordUseCaseTests
         result.Name.ShouldBe(user.Name);
         result.Tokens.AccessToken.ShouldNotBeNullOrEmpty();
         result.Tokens.RefreshToken.ShouldBeNullOrEmpty();
+        result.ImageUrl.ShouldBe(expectedUrl);
     }
 
     [Fact]
@@ -72,6 +77,7 @@ public class LoginWithEmailAndPasswordUseCaseTests
 
     private LoginWithEmailAndPasswordUseCase CreateUseCase(string? password = null, MyRecipeBook.Domain.Entities.User? user = null)
     {
+        var storageService = IStorageServiceBuilder.Build();
         var accessTokenGenerator = IAccessTokenGeneratorBuilder.Build();
         var passwordHasherBuilder = new IPasswordHasherBuilder();
         var userReadOnlyRepositoryBuilder = new IUserReadOnlyRepositoryBuilder();
@@ -81,6 +87,6 @@ public class LoginWithEmailAndPasswordUseCaseTests
         if(password.IsNotEmpty())
             passwordHasherBuilder.VerifyPassword(password);
 
-        return new LoginWithEmailAndPasswordUseCase(passwordHasherBuilder.Build(), userReadOnlyRepositoryBuilder.Build(), accessTokenGenerator);
+        return new LoginWithEmailAndPasswordUseCase(passwordHasherBuilder.Build(), userReadOnlyRepositoryBuilder.Build(), accessTokenGenerator, storageService);
     }
 }

@@ -1,6 +1,7 @@
 ﻿using CommonTestUtilities.Entities;
 using CommonTestUtilities.Identity;
 using CommonTestUtilities.Repositories;
+using CommonTestUtilities.Storage;
 using MyRecipeBook.Application.Mappings;
 using MyRecipeBook.Application.UseCases.Recipe.GetById;
 using MyRecipeBook.Exception;
@@ -17,11 +18,14 @@ public class GetRecipeByIdUseCaseTests
         MapsterConfiguration.Configure();
     }
 
-    [Fact]
-    public async Task Success()
+    [Theory]
+    [InlineData(true, IStorageServiceBuilder.FakeUrl)]
+    [InlineData(false, "")]
+    public async Task Success(bool hasImage, string expectedUrl)
     {
         var (user, _) = UserBuilder.Build();
         var recipe = RecipeBuilder.Build(user);
+        recipe.HasImage = hasImage;
 
         var useCase = CreateUseCase(recipe, user);
 
@@ -30,6 +34,7 @@ public class GetRecipeByIdUseCaseTests
         result.ShouldNotBeNull();
         result.Id.ShouldBe(recipe.Id);
         result.Title.ShouldBe(recipe.Title);
+        result.ImageUrl.ShouldBe(expectedUrl);
 
         result.Instructions.Select(c => c.Order).ShouldBeInOrder(SortDirection.Ascending);
     }
@@ -57,7 +62,8 @@ public class GetRecipeByIdUseCaseTests
     {
         var loggedUser = ILoggedUserBuilder.Build(user);
         var repository = new IRecipeReadOnlyRepositoryBuilder().GetById(recipe).Build();
+        var storageService = IStorageServiceBuilder.Build();
 
-        return new GetRecipeByIdUseCase(repository, loggedUser);
+        return new GetRecipeByIdUseCase(repository, loggedUser, storageService);
     }
 }

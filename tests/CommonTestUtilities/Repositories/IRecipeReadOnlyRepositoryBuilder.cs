@@ -23,7 +23,7 @@ public class IRecipeReadOnlyRepositoryBuilder
 
     public IRecipeReadOnlyRepositoryBuilder GetRecentRecipes(User user, IList<Recipe> recipes)
     {
-        var recipesDto = recipes.Select(recipe => new RecipeSummaryDto(recipe.Id, recipe.Title)).ToList();
+        var recipesDto = recipes.Select(recipe => new RecipeSummaryDto(recipe.Id, recipe.Title, recipe.HasImage)).ToList();
 
         _mock.Setup(repository => repository.GetRecentRecipes(user.Id)).ReturnsAsync(recipesDto);
 
@@ -32,7 +32,7 @@ public class IRecipeReadOnlyRepositoryBuilder
 
     public IRecipeReadOnlyRepositoryBuilder FilterRecipes(User user, IList<Recipe> recipes)
     {
-        var recipesDto = recipes.Select(recipe => new RecipeSummaryDto(recipe.Id, recipe.Title)).ToList();
+        var recipesDto = recipes.Select(recipe => new RecipeSummaryDto(recipe.Id, recipe.Title, recipe.HasImage)).ToList();
 
         _mock.Setup(repository => repository.FilterRecipes(user.Id, It.IsAny<RecipeFilterDto>())).ReturnsAsync(recipesDto);
 

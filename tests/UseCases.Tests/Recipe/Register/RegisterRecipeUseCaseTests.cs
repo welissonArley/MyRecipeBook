@@ -3,6 +3,7 @@ using CommonTestUtilities.Files;
 using CommonTestUtilities.Identity;
 using CommonTestUtilities.Repositories;
 using CommonTestUtilities.Requests;
+using CommonTestUtilities.Storage;
 using MyRecipeBook.Application.Mappings;
 using MyRecipeBook.Application.UseCases.Recipe.Register;
 using MyRecipeBook.Exception;
@@ -30,6 +31,7 @@ public class RegisterRecipeUseCaseTests
 
         result.ShouldNotBeNull();
         result.Title.ShouldBe(request.Title);
+        result.ImageUrl.ShouldBeEmpty();
     }
 
     [Fact]
@@ -43,6 +45,7 @@ public class RegisterRecipeUseCaseTests
 
         result.ShouldNotBeNull();
         result.Title.ShouldBe(request.Title);
+        result.ImageUrl.ShouldBe(IStorageServiceBuilder.FakeUrl);
     }
 
     [Fact]
@@ -56,6 +59,7 @@ public class RegisterRecipeUseCaseTests
 
         result.ShouldNotBeNull();
         result.Title.ShouldBe(request.Title);
+        result.ImageUrl.ShouldBe(IStorageServiceBuilder.FakeUrl);
     }
 
     [Fact]
@@ -120,7 +124,8 @@ public class RegisterRecipeUseCaseTests
         var loggedUser = ILoggedUserBuilder.Build(user);
         var repository = new IRecipeWriteOnlyRepositoryBuilder().Build();
         var unitOfWork = IUnitOfWorkBuilder.Build();
+        var storageService = IStorageServiceBuilder.Build();
 
-        return new RegisterRecipeUseCase(loggedUser, repository, unitOfWork);
+        return new RegisterRecipeUseCase(loggedUser, repository, unitOfWork, storageService);
     }
 }
