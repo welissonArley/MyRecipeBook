@@ -38,6 +38,7 @@ public class RegisterRecipeTests : BaseIntegrationTest
         var responseData = await JsonDocument.ParseAsync(responseBody);
 
         responseData.RootElement.GetProperty("title").GetString().ShouldBe(request.Title);
+        responseData.RootElement.GetProperty("imageUrl").GetString().ShouldBeNullOrEmpty();
 
         var recipeId = responseData.RootElement.GetProperty("id").GetGuid();
 
@@ -48,6 +49,12 @@ public class RegisterRecipeTests : BaseIntegrationTest
             recipe.UserId == _user1.GetId());
 
         recipeExists.ShouldBeTrue();
+
+        var existImageInStorage = await BlobServiceClient.GetBlobContainerClient(_user1.GetId().ToString())
+            .GetBlobClient(recipeId.ToString())
+            .ExistsAsync();
+
+        existImageInStorage.Value.ShouldBeFalse();
     }
 
     [Fact]
@@ -64,6 +71,7 @@ public class RegisterRecipeTests : BaseIntegrationTest
         var responseData = await JsonDocument.ParseAsync(responseBody);
 
         responseData.RootElement.GetProperty("title").GetString().ShouldBe(request.Title);
+        responseData.RootElement.GetProperty("imageUrl").GetString().ShouldNotBeNullOrEmpty();
 
         var recipeId = responseData.RootElement.GetProperty("id").GetGuid();
 
@@ -74,6 +82,12 @@ public class RegisterRecipeTests : BaseIntegrationTest
             recipe.UserId == _user1.GetId());
 
         recipeExists.ShouldBeTrue();
+
+        var existImageInStorage = await BlobServiceClient.GetBlobContainerClient(_user1.GetId().ToString())
+            .GetBlobClient(recipeId.ToString())
+            .ExistsAsync();
+
+        existImageInStorage.Value.ShouldBeTrue();
     }
 
     [Theory]

@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using MyRecipeBook.Domain.Security.PasswordHashing;
 using MyRecipeBook.Domain.Security.Tokens;
 using MyRecipeBook.Infrastructure.DataAccess;
+using Testcontainers.Azurite;
 using Testcontainers.MySql;
 using WebApi.Tests.Resources;
 
@@ -18,11 +19,16 @@ public class MyRecipeBookApplicationFactory : WebApplicationFactory<Program>, IA
     public string TOKEN_USER_NOT_FOUND_IN_DATABASE { get; private set; } = string.Empty;
 
     private readonly MySqlContainer _mySqlContainer;
+    private readonly AzuriteContainer _azuriteContainer;
 
     public MyRecipeBookApplicationFactory()
     {
         _mySqlContainer = new MySqlBuilder("mysql:8.0")
             .WithDatabase("meulivrodereceitas")
+            .Build();
+
+        _azuriteContainer = new AzuriteBuilder("mcr.microsoft.com/azure-storage/azurite:latest")
+            .WithCommand("--skipApiVersionCheck")
             .Build();
     }
 
@@ -33,7 +39,8 @@ public class MyRecipeBookApplicationFactory : WebApplicationFactory<Program>, IA
             {
                 var parameters = new Dictionary<string, string?>
                 {
-                    ["ConnectionStrings:DbConnection"] = _mySqlContainer.GetConnectionString()
+                    ["ConnectionStrings:DbConnection"] = _mySqlContainer.GetConnectionString(),
+                    ["ConnectionStrings:BlobStorage"] = _azuriteContainer.GetConnectionString()
                 };
 
                 configuration.AddInMemoryCollection(parameters);
@@ -43,6 +50,7 @@ public class MyRecipeBookApplicationFactory : WebApplicationFactory<Program>, IA
     public async Task InitializeAsync()
     {
         await _mySqlContainer.StartAsync();
+        await _azuriteContainer.StartAsync();
 
         await using var scope = Services.CreateAsyncScope();
 
@@ -67,5 +75,9 @@ public class MyRecipeBookApplicationFactory : WebApplicationFactory<Program>, IA
         TOKEN_USER_NOT_FOUND_IN_DATABASE = accessTokenGenerator.Generate(new MyRecipeBook.Domain.Entities.User());
     }
 
-    Task IAsyncLifetime.DisposeAsync() => _mySqlContainer.StopAsync();
+    async Task IAsyncLifetime.DisposeAsync()
+    {
+        await _mySqlContainer.StopAsync();
+        await _azuriteContainer.StopAsync();
+    }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Azure.Storage.Blobs;
+using Microsoft.Extensions.DependencyInjection;
 using MyRecipeBook.Domain.Extensions;
 using MyRecipeBook.Infrastructure.DataAccess;
 using System.Net.Http.Headers;
@@ -9,6 +10,7 @@ namespace WebApi.Tests;
 public abstract class BaseIntegrationTest : IClassFixture<MyRecipeBookApplicationFactory>, IDisposable
 {
     internal readonly MyRecipeBookDbContext DbContext;
+    internal readonly BlobServiceClient BlobServiceClient;
 
     private readonly HttpClient _httpClient;
     private readonly IServiceScope _scope;
@@ -20,6 +22,7 @@ public abstract class BaseIntegrationTest : IClassFixture<MyRecipeBookApplicatio
         _scope = factory.Services.CreateScope();
 
         DbContext = _scope.ServiceProvider.GetRequiredService<MyRecipeBookDbContext>();
+        BlobServiceClient = _scope.ServiceProvider.GetRequiredService<BlobServiceClient>();
     }
 
     protected async Task<HttpResponseMessage> Post(string requestUri, object request, string accessToken = "", string culture = "en-US")

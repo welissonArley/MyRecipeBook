@@ -33,12 +33,14 @@ public static class DependencyInjectionExtension
 
             services.AddScoped<ILoggedUser, LoggedUser>();
 
-            services.AddScoped<IStorageService>(config =>
+            services.AddScoped(_ =>
             {
                 var connectionString = configuration.GetConnectionString("BlobStorage")!;
 
-                return new AzureStorageService(new BlobServiceClient(connectionString));
+                return new BlobServiceClient(connectionString);
             });
+
+            services.AddScoped<IStorageService, AzureStorageService>();
 
             services.AddDbContext<MyRecipeBookDbContext>(config =>
             {
