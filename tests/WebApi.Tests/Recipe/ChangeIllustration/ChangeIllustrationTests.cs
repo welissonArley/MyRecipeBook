@@ -1,5 +1,4 @@
 using CommonTestUtilities.Files;
-using MyRecipeBook.Domain.Entities;
 using MyRecipeBook.Domain.Extensions;
 using MyRecipeBook.Exception;
 using Shouldly;
