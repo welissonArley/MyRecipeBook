@@ -11,7 +11,7 @@ public record GeneratedRecipeDto
     public CookTime CookTime { get; init; }
     public IList<GeneratedIngredientDto> Ingredients { get; init; } = [];
     public IList<GeneratedInstructionDto> Instructions { get; init; } = [];
-    public byte[]? Image { get; init; }
+    public byte[] Image { get; init; } = [];
 }
 
 public record GeneratedInstructionDto
