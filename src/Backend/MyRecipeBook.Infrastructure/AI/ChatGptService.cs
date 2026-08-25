@@ -4,8 +4,11 @@ using MyRecipeBook.Domain.Extensions;
 using OpenAI.Chat;
 using OpenAI.Images;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace MyRecipeBook.Infrastructure.AI;
+
+#pragma warning disable OPENAI001
 
 internal sealed class ChatGptService : IGenerateRecipeAI
 {
@@ -29,7 +32,11 @@ internal sealed class ChatGptService : IGenerateRecipeAI
         if(content.IsEmpty() || content.Equals("NO_RECIPE", StringComparison.OrdinalIgnoreCase))
             return null;
 
-        var recipe = JsonSerializer.Deserialize<GeneratedRecipeDto>(content);
+        var recipe = JsonSerializer.Deserialize<GeneratedRecipeDto>(content, new JsonSerializerOptions
+        {
+            PropertyNameCaseInsensitive = true,
+            Converters = { new JsonStringEnumConverter() }
+        });
 
         var image = await GenerateImage(recipe!.Title);
 
@@ -41,7 +48,7 @@ internal sealed class ChatGptService : IGenerateRecipeAI
         var options = new ImageGenerationOptions
         {
             Size = GeneratedImageSize.W1024xH1024,
-            Quality = GeneratedImageQuality.Standard
+            Quality = GeneratedImageQuality.LowQuality
         };
 
         var image = await _imageClient

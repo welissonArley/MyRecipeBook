@@ -6,6 +6,7 @@ using MyRecipeBook.Application.UseCases.PasswordRecovery.ResetPassword;
 using MyRecipeBook.Application.UseCases.Recipe.ChangeIllustration;
 using MyRecipeBook.Application.UseCases.Recipe.DeleteById;
 using MyRecipeBook.Application.UseCases.Recipe.Filter;
+using MyRecipeBook.Application.UseCases.Recipe.GenerateRecipeAI;
 using MyRecipeBook.Application.UseCases.Recipe.GetById;
 using MyRecipeBook.Application.UseCases.Recipe.Recent;
 using MyRecipeBook.Application.UseCases.Recipe.Register;
@@ -43,6 +44,7 @@ public static class DependencyInjectionExtension
         services.AddScoped<IGetRecentRecipesUseCase, GetRecentRecipesUseCase>();
         services.AddScoped<IFilterRecipesUseCase, FilterRecipesUseCase>();
         services.AddScoped<IChangeIllustrationUseCase, ChangeIllustrationUseCase>();
+        services.AddScoped<IGenerateRecipeAIUseCase, GenerateRecipeAIUseCase>();
 
         services.AddScoped<IRequestPasswordRecoveryCodeUseCase, RequestPasswordRecoveryCodeUseCase>();
         services.AddScoped<IResetPasswordUseCase, ResetPasswordUseCase>();

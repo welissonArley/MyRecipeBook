@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using MyRecipeBook.Application.UseCases.Recipe.ChangeIllustration;
 using MyRecipeBook.Application.UseCases.Recipe.DeleteById;
 using MyRecipeBook.Application.UseCases.Recipe.Filter;
+using MyRecipeBook.Application.UseCases.Recipe.GenerateRecipeAI;
 using MyRecipeBook.Application.UseCases.Recipe.GetById;
 using MyRecipeBook.Application.UseCases.Recipe.Recent;
 using MyRecipeBook.Application.UseCases.Recipe.Register;
@@ -95,6 +96,18 @@ public class RecipesController : ControllerBase
     public async Task<IActionResult> Filter(
         [FromServices] IFilterRecipesUseCase useCase,
         [FromBody] RequestFilterRecipesJson? request)
+    {
+        var response = await useCase.Execute(request);
+
+        return Ok(response);
+    }
+
+    [HttpPost("generate")]
+    [ProducesResponseType(typeof(ResponseGeneratedRecipeJson), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> Generate(
+        [FromServices] IGenerateRecipeAIUseCase useCase,
+        [FromBody] RequestGenerateRecipeJson request)
     {
         var response = await useCase.Execute(request);
 

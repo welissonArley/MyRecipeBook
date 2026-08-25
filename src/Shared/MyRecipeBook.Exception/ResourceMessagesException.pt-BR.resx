@@ -198,4 +198,7 @@
   <data name="VALIDATION_RECIPE_NOT_FOUND" xml:space="preserve">
     <value>Ops! Não conseguimos encontrar esta receita.</value>
   </data>
+  <data name="UNABLE_TO_GENERATE_RECIPE" xml:space="preserve">
+    <value>Ops! Não conseguimos criar uma receita a partir do seu pedido. Tente descrever ingredientes ou um prato.</value>
+  </data>
 </root>

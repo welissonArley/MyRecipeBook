@@ -275,7 +275,16 @@ namespace MyRecipeBook.Exception {
                 return ResourceManager.GetString("VALIDATION_RECIPE_NOT_FOUND", resourceCulture);
             }
         }
-        
+
+        /// <summary>
+        ///   Looks up a localized string similar to Oops! We couldn’t create a recipe from your request. Try describing ingredients or a dish..
+        /// </summary>
+        public static string UNABLE_TO_GENERATE_RECIPE {
+            get {
+                return ResourceManager.GetString("UNABLE_TO_GENERATE_RECIPE", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   Looks up a localized string similar to Oops! You don’t have access to this resource..
         /// </summary>
