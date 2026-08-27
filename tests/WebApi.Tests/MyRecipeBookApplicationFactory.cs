@@ -1,8 +1,12 @@
-﻿using CommonTestUtilities.Entities;
+﻿using CommonTestUtilities.AI;
+using CommonTestUtilities.Entities;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using MyRecipeBook.Domain.AI;
 using MyRecipeBook.Domain.Security.PasswordHashing;
 using MyRecipeBook.Domain.Security.Tokens;
 using MyRecipeBook.Infrastructure.DataAccess;
@@ -25,6 +29,7 @@ public class MyRecipeBookApplicationFactory : WebApplicationFactory<Program>, IA
     {
         _mySqlContainer = new MySqlBuilder("mysql:8.0")
             .WithDatabase("meulivrodereceitas")
+            .WithCommand("--innodb-use-native-aio=0")
             .Build();
 
         _azuriteContainer = new AzuriteBuilder("mcr.microsoft.com/azure-storage/azurite:latest")
@@ -44,6 +49,11 @@ public class MyRecipeBookApplicationFactory : WebApplicationFactory<Program>, IA
                 };
 
                 configuration.AddInMemoryCollection(parameters);
+            })
+            .ConfigureTestServices(services =>
+            {
+                services.RemoveAll<IGenerateRecipeAI>();
+                services.AddScoped(_ => IGenerateRecipeAIBuilder.Build());
             });
     }
 
