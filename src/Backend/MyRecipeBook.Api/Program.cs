@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi;
+using MyRecipeBook.Api.Configuration;
 using MyRecipeBook.Api.Converters;
 using MyRecipeBook.Api.Filters;
 using MyRecipeBook.Api.Token;
@@ -54,6 +55,9 @@ builder.Services.AddSwaggerGen(options =>
 
 builder.Services.AddApplication();
 builder.Services.AddInfrastructure(builder.Configuration);
+
+builder.Services.AddOptions<ExternalLoginReturnUrlOptions>()
+    .Bind(builder.Configuration.GetSection(ExternalLoginReturnUrlOptions.SectionName));
 
 builder.Services.AddScoped<IAccessTokenProvider, HttpContextTokenProvider>();
 
@@ -136,7 +140,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         googleOptions.ClientSecret = builder.Configuration.GetValue<string>("Settings:Google:ClientSecret")!;
         googleOptions.CallbackPath = "/signin-google";
         googleOptions.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-    }).AddCookie(options =>
+    })
+    .AddCookie(options =>
     {
         options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
     });
