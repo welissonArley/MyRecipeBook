@@ -17,5 +17,14 @@ public class IVerificationCodeReadOnlyRepositoryBuilder
         return this;
     }
 
+    public IVerificationCodeReadOnlyRepositoryBuilder GetExternalLoginCode(VerificationCode verificationCode)
+    {
+        _mock
+            .Setup(repository => repository.GetExternalLoginCode(verificationCode.Code))
+            .ReturnsAsync(verificationCode);
+
+        return this;
+    }
+
     public IVerificationCodeReadOnlyRepository Build() => _mock.Object;
 }
