@@ -32,6 +32,13 @@ internal sealed class UserRepository : IUserWriteOnlyRepository, IUserReadOnlyRe
             .SingleOrDefaultAsync(user => user.Active && user.Email.Equals(email));
     }
 
+    public async Task<User?> GetById(Guid userId)
+    {
+        return await _dbContext.Users
+            .AsNoTracking()
+            .SingleOrDefaultAsync(user => user.Active && user.Id == userId);
+    }
+
     public async Task UpdatePassword(Guid userId, string passwordHash)
     {
         await _dbContext

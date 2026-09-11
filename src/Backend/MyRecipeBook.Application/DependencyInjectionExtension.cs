@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using MyRecipeBook.Application.Mappings;
 using MyRecipeBook.Application.UseCases.Login.WithEmailAndPassword;
+using MyRecipeBook.Application.UseCases.Login.WithExternalProvider;
 using MyRecipeBook.Application.UseCases.PasswordRecovery.RequestCode;
 using MyRecipeBook.Application.UseCases.PasswordRecovery.ResetPassword;
 using MyRecipeBook.Application.UseCases.Recipe.ChangeIllustration;
@@ -32,6 +33,8 @@ public static class DependencyInjectionExtension
     {
         services.AddScoped<IRegisterUserAccountUseCase, RegisterUserAccountUseCase>();
         services.AddScoped<ILoginWithEmailAndPasswordUseCase, LoginWithEmailAndPasswordUseCase>();
+        services.AddScoped<ILoginWithExternalProviderUseCase, LoginWithExternalProviderUseCase>();
+        services.AddScoped<IExchangeExternalLoginCodeUseCase, ExchangeExternalLoginCodeUseCase>();
         services.AddScoped<IGetUserProfileUseCase, GetUserProfileUseCase>();
         services.AddScoped<IChangePasswordUseCase, ChangePasswordUseCase>();
         services.AddScoped<IUpdateUserUseCase, UpdateUserUseCase>();

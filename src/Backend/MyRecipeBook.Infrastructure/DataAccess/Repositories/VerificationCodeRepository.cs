@@ -41,4 +41,13 @@ internal sealed class VerificationCodeRepository : IVerificationCodeWriteOnlyRep
                 verificationCode.Code == code &&
                 verificationCode.Type == type);
     }
+
+    public async Task<VerificationCode?> GetExternalLoginCode(string code)
+    {
+        return await _dbContext.VerificationCodes
+            .AsNoTracking()
+            .SingleOrDefaultAsync(verificationCode =>
+                verificationCode.Code == code &&
+                verificationCode.Type == VerificationCodeType.ExternalLoginExchange);
+    }
 }
