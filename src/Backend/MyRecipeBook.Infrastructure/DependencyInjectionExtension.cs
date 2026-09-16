@@ -1,10 +1,12 @@
-﻿using Azure.Storage.Blobs;
+﻿using Azure.Messaging.ServiceBus;
+using Azure.Storage.Blobs;
 using FluentMigrator.Runner;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MyRecipeBook.Domain.AI;
 using MyRecipeBook.Domain.Identity;
+using MyRecipeBook.Domain.Messaging;
 using MyRecipeBook.Domain.Repositories;
 using MyRecipeBook.Domain.Repositories.Recipe;
 using MyRecipeBook.Domain.Repositories.User;
@@ -16,6 +18,7 @@ using MyRecipeBook.Infrastructure.AI;
 using MyRecipeBook.Infrastructure.DataAccess;
 using MyRecipeBook.Infrastructure.DataAccess.Repositories;
 using MyRecipeBook.Infrastructure.Identity;
+using MyRecipeBook.Infrastructure.Messaging;
 using MyRecipeBook.Infrastructure.Security.PasswordHashing;
 using MyRecipeBook.Infrastructure.Security.Tokens.Access;
 using MyRecipeBook.Infrastructure.Storage;
@@ -38,14 +41,11 @@ public static class DependencyInjectionExtension
 
             services.AddSecurity(configuration);
 
+            services.AddStorage(configuration);
+
+            services.AddMessaging(configuration);
+
             services.AddScoped<ILoggedUser, LoggedUser>();
-
-            services.AddSingleton(_ =>
-            {
-                var connectionString = configuration.GetConnectionString("BlobStorage")!;
-
-                return new BlobServiceClient(connectionString);
-            });
 
             services.AddScoped<IStorageService, AzureStorageService>();
 
@@ -127,6 +127,28 @@ public static class DependencyInjectionExtension
             });
 
             services.AddScoped<IGenerateRecipeAI, ChatGptService>();
+        }
+
+        private void AddStorage(IConfiguration configuration)
+        {
+            services.AddSingleton(_ =>
+            {
+                var connectionString = configuration.GetConnectionString("BlobStorage")!;
+
+                return new BlobServiceClient(connectionString);
+            });
+        }
+
+        private void AddMessaging(IConfiguration configuration)
+        {
+            services.AddSingleton(_ =>
+            {
+                var connectionString = configuration.GetConnectionString("ServiceBus")!;
+
+                return new ServiceBusClient(connectionString);
+            });
+
+            services.AddScoped<IScheduleAccountDeletion, AccountDeletionQueuePublisher>();
         }
     }
 }
