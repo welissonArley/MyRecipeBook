@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi;
+using MyRecipeBook.Api.BackgroundServices;
 using MyRecipeBook.Api.Configuration;
 using MyRecipeBook.Api.Converters;
 using MyRecipeBook.Api.Filters;
@@ -55,6 +56,8 @@ builder.Services.AddSwaggerGen(options =>
 
 builder.Services.AddApplication();
 builder.Services.AddInfrastructure(builder.Configuration);
+
+builder.Services.AddHostedService<DeleteUserAccountConsumer>();
 
 builder.Services.AddOptions<ExternalLoginReturnUrlOptions>()
     .Bind(builder.Configuration.GetSection(ExternalLoginReturnUrlOptions.SectionName));
