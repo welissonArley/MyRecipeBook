@@ -15,6 +15,29 @@ internal sealed class UserRepository : IUserWriteOnlyRepository, IUserReadOnlyRe
 
     public async Task Add(User user) => await _dbContext.Users.AddAsync(user);
 
+    public async Task DeactivateAccount(Guid userId)
+    {
+        await _dbContext
+            .Users
+            .Where(user => user.Active && user.Id == userId)
+            .ExecuteUpdateAsync(setter => setter.SetProperty(user => user.Active, false));
+    }
+
+    public async Task DeleteAccount(Guid userId)
+    {
+        var userToDelete = await _dbContext.Users.SingleOrDefaultAsync(user => user.Active == false && user.Id == userId);
+        if (userToDelete is not null)
+        {
+            var recipes = await _dbContext.Recipes.Where(recipe => recipe.UserId == userId).ToListAsync();
+            _dbContext.Recipes.RemoveRange(recipes);
+
+            var verificationCodes = await _dbContext.VerificationCodes.Where(verificationCode => verificationCode.UserId == userId).ToListAsync();
+            _dbContext.VerificationCodes.RemoveRange(verificationCodes);
+
+            _dbContext.Users.Remove(userToDelete);
+        }
+    }
+
     public async Task<bool> ExistActiveUserWithEmail(string email)
     {
         return await _dbContext.Users.AnyAsync(user => user.Active && user.Email.Equals(email));
@@ -43,7 +66,7 @@ internal sealed class UserRepository : IUserWriteOnlyRepository, IUserReadOnlyRe
     {
         await _dbContext
             .Users
-            .Where(user => user.Id == userId)
+            .Where(user => user.Active && user.Id == userId)
             .ExecuteUpdateAsync(setter => setter.SetProperty(user => user.Password, passwordHash));
     }
 
@@ -59,7 +82,7 @@ internal sealed class UserRepository : IUserWriteOnlyRepository, IUserReadOnlyRe
     {
         await _dbContext
             .Users
-            .Where(user => user.Id == userId)
+            .Where(user => user.Active && user.Id == userId)
             .ExecuteUpdateAsync(setter => setter.SetProperty(user => user.HasImage, hasProfilePicture));
     }
 }

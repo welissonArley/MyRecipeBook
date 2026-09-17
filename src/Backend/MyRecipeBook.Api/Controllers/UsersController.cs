@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using MyRecipeBook.Application.UseCases.User.ChangePassword;
 using MyRecipeBook.Application.UseCases.User.ChangeProfilePicture;
+using MyRecipeBook.Application.UseCases.User.DeleteAccount;
 using MyRecipeBook.Application.UseCases.User.Profile;
 using MyRecipeBook.Application.UseCases.User.Register;
 using MyRecipeBook.Application.UseCases.User.Update;
@@ -71,6 +72,16 @@ public class UsersController : ControllerBase
         IFormFile profilePicture)
     {
         await useCase.Execute(profilePicture.OpenReadStream());
+
+        return NoContent();
+    }
+
+    [HttpDelete]
+    [Authorize]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    public async Task<IActionResult> DeleteAccount([FromServices] IDeleteUserAccountUseCase useCase)
+    {
+        await useCase.Execute();
 
         return NoContent();
     }
