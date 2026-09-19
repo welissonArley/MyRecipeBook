@@ -7,7 +7,12 @@ using System.Net.Http.Json;
 
 namespace WebApi.Tests;
 
-public abstract class BaseIntegrationTest : IClassFixture<MyRecipeBookApplicationFactory>, IDisposable
+public abstract class BaseIntegrationTest : BaseIntegrationTest<MyRecipeBookApplicationFactory>
+{
+    protected BaseIntegrationTest(MyRecipeBookApplicationFactory factory) : base(factory) { }
+}
+
+public abstract class BaseIntegrationTest<TFactory> : IClassFixture<TFactory>, IDisposable where TFactory : MyRecipeBookApplicationFactory
 {
     internal readonly MyRecipeBookDbContext DbContext;
     internal readonly BlobServiceClient BlobServiceClient;
@@ -15,7 +20,7 @@ public abstract class BaseIntegrationTest : IClassFixture<MyRecipeBookApplicatio
     private readonly HttpClient _httpClient;
     private readonly IServiceScope _scope;
 
-    public BaseIntegrationTest(MyRecipeBookApplicationFactory factory)
+    public BaseIntegrationTest(TFactory factory)
     {
         _httpClient = factory.CreateClient();
 

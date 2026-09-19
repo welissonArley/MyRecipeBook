@@ -1,17 +1,21 @@
 ﻿using CommonTestUtilities.AI;
 using CommonTestUtilities.Entities;
+using DotNet.Testcontainers.Containers;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.Hosting;
+using MyRecipeBook.Api.BackgroundServices;
 using MyRecipeBook.Domain.AI;
 using MyRecipeBook.Domain.Security.PasswordHashing;
 using MyRecipeBook.Domain.Security.Tokens;
 using MyRecipeBook.Infrastructure.DataAccess;
 using Testcontainers.Azurite;
 using Testcontainers.MySql;
+using Testcontainers.ServiceBus;
 using WebApi.Tests.Resources;
 
 namespace WebApi.Tests;
@@ -24,6 +28,7 @@ public class MyRecipeBookApplicationFactory : WebApplicationFactory<Program>, IA
 
     private readonly MySqlContainer _mySqlContainer;
     private readonly AzuriteContainer _azuriteContainer;
+    protected readonly ServiceBusContainer _serviceBusContainer;
 
     public MyRecipeBookApplicationFactory()
     {
@@ -34,6 +39,11 @@ public class MyRecipeBookApplicationFactory : WebApplicationFactory<Program>, IA
 
         _azuriteContainer = new AzuriteBuilder("mcr.microsoft.com/azure-storage/azurite:latest")
             .WithCommand("--skipApiVersionCheck")
+            .Build();
+
+        _serviceBusContainer = new ServiceBusBuilder("mcr.microsoft.com/azure-messaging/servicebus-emulator:latest")
+            .WithAcceptLicenseAgreement(true)
+            .WithConfig(Path.Combine(AppContext.BaseDirectory, "ServiceBusConfig.json"))
             .Build();
     }
 
@@ -48,16 +58,26 @@ public class MyRecipeBookApplicationFactory : WebApplicationFactory<Program>, IA
                     ["ConnectionStrings:BlobStorage"] = _azuriteContainer.GetConnectionString()
                 };
 
+                if (_serviceBusContainer.State == DotNet.Testcontainers.Containers.TestcontainersStates.Running)
+                    parameters["ConnectionStrings:ServiceBus"] = _serviceBusContainer.GetConnectionString();
+
                 configuration.AddInMemoryCollection(parameters);
             })
             .ConfigureTestServices(services =>
             {
                 services.RemoveAll<IGenerateRecipeAI>();
                 services.AddScoped(_ => IGenerateRecipeAIBuilder.Build());
+
+                if (_serviceBusContainer.State != TestcontainersStates.Running)
+                {
+                    var consumer = services.SingleOrDefault(service => service.ImplementationType == typeof(DeleteUserAccountConsumer));
+                    if (consumer is not null)
+                        services.Remove(consumer);
+                }
             });
     }
 
-    public async Task InitializeAsync()
+    public async virtual Task InitializeAsync()
     {
         await _mySqlContainer.StartAsync();
         await _azuriteContainer.StartAsync();
@@ -89,5 +109,6 @@ public class MyRecipeBookApplicationFactory : WebApplicationFactory<Program>, IA
     {
         await _mySqlContainer.StopAsync();
         await _azuriteContainer.StopAsync();
+        await _serviceBusContainer.StopAsync();
     }
 }
