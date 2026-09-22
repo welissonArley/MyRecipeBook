@@ -9,6 +9,7 @@ using MyRecipeBook.Domain.Identity;
 using MyRecipeBook.Domain.Messaging;
 using MyRecipeBook.Domain.Repositories;
 using MyRecipeBook.Domain.Repositories.Recipe;
+using MyRecipeBook.Domain.Repositories.RefreshToken;
 using MyRecipeBook.Domain.Repositories.User;
 using MyRecipeBook.Domain.Repositories.VerificationCode;
 using MyRecipeBook.Domain.Security.PasswordHashing;
@@ -21,6 +22,7 @@ using MyRecipeBook.Infrastructure.Identity;
 using MyRecipeBook.Infrastructure.Messaging;
 using MyRecipeBook.Infrastructure.Security.PasswordHashing;
 using MyRecipeBook.Infrastructure.Security.Tokens.Access;
+using MyRecipeBook.Infrastructure.Security.Tokens.Refresh;
 using MyRecipeBook.Infrastructure.Storage;
 using OpenAI.Chat;
 using OpenAI.Images;
@@ -85,11 +87,15 @@ public static class DependencyInjectionExtension
 
             services.AddScoped<IVerificationCodeWriteOnlyRepository, VerificationCodeRepository>();
             services.AddScoped<IVerificationCodeReadOnlyRepository, VerificationCodeRepository>();
+
+            services.AddScoped<IRefreshTokenWriteOnlyRepository, RefreshTokenRepository>();
         }
 
         private void AddSecurity(IConfiguration configuration)
         {
             services.AddScoped<IPasswordHasher, Argon2PasswordHasher>();
+
+            services.AddScoped<IRefreshTokenGenerator, RefreshTokenGenerator>();
 
             services.AddScoped<IAccessTokenGenerator>(provider =>
             {

@@ -34,6 +34,9 @@ internal sealed class UserRepository : IUserWriteOnlyRepository, IUserReadOnlyRe
             var verificationCodes = await _dbContext.VerificationCodes.Where(verificationCode => verificationCode.UserId == userId).ToListAsync();
             _dbContext.VerificationCodes.RemoveRange(verificationCodes);
 
+            var refreshTokens = await _dbContext.RefreshTokens.Where(refreshToken => refreshToken.UserId == userId).ToListAsync();
+            _dbContext.RefreshTokens.RemoveRange(refreshTokens);
+
             _dbContext.Users.Remove(userToDelete);
         }
     }

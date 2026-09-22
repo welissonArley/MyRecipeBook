@@ -1,5 +1,8 @@
 using MyRecipeBook.Communication.Requests;
 using MyRecipeBook.Communication.Responses;
+using MyRecipeBook.Domain.Entities;
+using MyRecipeBook.Domain.Repositories;
+using MyRecipeBook.Domain.Repositories.RefreshToken;
 using MyRecipeBook.Domain.Repositories.User;
 using MyRecipeBook.Domain.Repositories.VerificationCode;
 using MyRecipeBook.Domain.Security.Tokens;
@@ -16,20 +19,29 @@ public class ExchangeExternalLoginCodeUseCase : IExchangeExternalLoginCodeUseCas
     private readonly IVerificationCodeReadOnlyRepository _verificationCodeReadOnlyRepository;
     private readonly IVerificationCodeWriteOnlyRepository _verificationCodeWriteOnlyRepository;
     private readonly IUserReadOnlyRepository _userReadOnlyRepository;
+    private readonly IRefreshTokenWriteOnlyRepository _refreshTokenWriteOnlyRepository;
+    private readonly IUnitOfWork _unitOfWork;
     private readonly IAccessTokenGenerator _accessTokenGenerator;
+    private readonly IRefreshTokenGenerator _refreshTokenGenerator;
     private readonly IStorageService _storageService;
 
     public ExchangeExternalLoginCodeUseCase(
         IVerificationCodeReadOnlyRepository verificationCodeReadOnlyRepository,
         IUserReadOnlyRepository userReadOnlyRepository,
         IVerificationCodeWriteOnlyRepository verificationCodeWriteOnlyRepository,
+        IRefreshTokenWriteOnlyRepository refreshTokenWriteOnlyRepository,
+        IUnitOfWork unitOfWork,
         IAccessTokenGenerator accessTokenGenerator,
+        IRefreshTokenGenerator refreshTokenGenerator,
         IStorageService storageService)
     {
         _verificationCodeReadOnlyRepository = verificationCodeReadOnlyRepository;
         _userReadOnlyRepository = userReadOnlyRepository;
         _verificationCodeWriteOnlyRepository = verificationCodeWriteOnlyRepository;
+        _refreshTokenWriteOnlyRepository = refreshTokenWriteOnlyRepository;
+        _unitOfWork = unitOfWork;
         _accessTokenGenerator = accessTokenGenerator;
+        _refreshTokenGenerator = refreshTokenGenerator;
         _storageService = storageService;
     }
 
@@ -47,14 +59,32 @@ public class ExchangeExternalLoginCodeUseCase : IExchangeExternalLoginCodeUseCas
 
         var user = await _userReadOnlyRepository.GetById(verificationCode.UserId);
 
+        var refreshToken = await GenerateAndSaveRefreshToken(user!.Id);
+
+        await _unitOfWork.Commit();
+
         return new ResponseRegisteredUserJson
         {
-            Name = user!.Name,
+            Name = user.Name,
             ImageUrl = user.HasImage ? _storageService.GetProfilePictureUrl(user) : string.Empty,
             Tokens = new ResponseTokensJson
             {
-                AccessToken = _accessTokenGenerator.Generate(user)
+                AccessToken = _accessTokenGenerator.Generate(user),
+                RefreshToken = refreshToken
             }
         };
+    }
+
+    private async Task<string> GenerateAndSaveRefreshToken(Guid userId)
+    {
+        var refreshToken = new RefreshToken
+        {
+            Value = _refreshTokenGenerator.Generate(),
+            UserId = userId
+        };
+
+        await _refreshTokenWriteOnlyRepository.Replace(refreshToken);
+
+        return refreshToken.Value;
     }
 }
