@@ -8,6 +8,7 @@ using MyRecipeBook.Application.UseCases.Login.WithEmailAndPassword;
 using MyRecipeBook.Application.UseCases.Login.WithExternalProvider;
 using MyRecipeBook.Application.UseCases.PasswordRecovery.RequestCode;
 using MyRecipeBook.Application.UseCases.PasswordRecovery.ResetPassword;
+using MyRecipeBook.Application.UseCases.Token.UseRefreshToken;
 using MyRecipeBook.Communication.Requests;
 using MyRecipeBook.Communication.Responses;
 using MyRecipeBook.Domain.Dtos;
@@ -26,6 +27,18 @@ public class AuthenticationController : ControllerBase
     public async Task<IActionResult> Login(
         [FromServices] ILoginWithEmailAndPasswordUseCase useCase,
         [FromBody] RequestLoginJson request)
+    {
+        var response = await useCase.Execute(request);
+
+        return Ok(response);
+    }
+
+    [HttpPost("token/refresh")]
+    [ProducesResponseType(typeof(ResponseTokensJson), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status401Unauthorized)]
+    public async Task<IActionResult> UseRefreshToken(
+        [FromServices] IUseRefreshTokenUseCase useCase,
+        [FromBody] RequestNewTokenJson request)
     {
         var response = await useCase.Execute(request);
 

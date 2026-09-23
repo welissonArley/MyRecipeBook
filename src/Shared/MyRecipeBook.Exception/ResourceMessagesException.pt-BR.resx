@@ -201,4 +201,7 @@
   <data name="UNABLE_TO_GENERATE_RECIPE" xml:space="preserve">
     <value>Ops! Não conseguimos criar uma receita a partir do seu pedido. Tente descrever ingredientes ou um prato.</value>
   </data>
+  <data name="EXPIRED_REFRESH_TOKEN" xml:space="preserve">
+    <value>Ops! Sua sessão expirou. Faça login novamente.</value>
+  </data>
 </root>

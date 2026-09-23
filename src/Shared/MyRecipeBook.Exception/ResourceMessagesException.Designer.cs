@@ -311,5 +311,14 @@ namespace MyRecipeBook.Exception {
                 return ResourceManager.GetString("VALIDATION_TITLE_REQUIRED", resourceCulture);
             }
         }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Oops! Your session has expired. Please sign in again..
+        /// </summary>
+        public static string EXPIRED_REFRESH_TOKEN {
+            get {
+                return ResourceManager.GetString("EXPIRED_REFRESH_TOKEN", resourceCulture);
+            }
+        }
     }
 }
