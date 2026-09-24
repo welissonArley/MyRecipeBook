@@ -87,20 +87,28 @@ public class MyRecipeBookApplicationFactory : WebApplicationFactory<Program>, IA
         var dbContext = scope.ServiceProvider.GetRequiredService<MyRecipeBookDbContext>();
         var passwordHasher = scope.ServiceProvider.GetRequiredService<IPasswordHasher>();
         var accessTokenGenerator = scope.ServiceProvider.GetRequiredService<IAccessTokenGenerator>();
+        var refreshTokenGenerator = scope.ServiceProvider.GetRequiredService<IRefreshTokenGenerator>();
 
         var (user, password) = UserBuilder.Build();
         user.Password = passwordHasher.HashPassword(password);
 
         var recipe = RecipeBuilder.Build(user);
 
+        var refreshToken = new MyRecipeBook.Domain.Entities.RefreshToken
+        {
+            Value = refreshTokenGenerator.Generate(),
+            UserId = user.Id
+        };
+
         await dbContext.Users.AddAsync(user);
         await dbContext.Recipes.AddAsync(recipe);
+        await dbContext.RefreshTokens.AddAsync(refreshToken);
 
         await dbContext.SaveChangesAsync();
 
         var user1AccessToken = accessTokenGenerator.Generate(user);
 
-        User1 = new UserIdentityManager(user, recipe, password, user1AccessToken);
+        User1 = new UserIdentityManager(user, recipe, password, user1AccessToken, refreshToken.Value);
 
         TOKEN_USER_NOT_FOUND_IN_DATABASE = accessTokenGenerator.Generate(new MyRecipeBook.Domain.Entities.User());
     }

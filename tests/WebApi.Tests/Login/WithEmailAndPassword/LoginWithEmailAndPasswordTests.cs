@@ -41,6 +41,7 @@ public class LoginWithEmailAndPasswordTests : BaseIntegrationTest
 
         responseData.RootElement.GetProperty("name").GetString().ShouldBe(_user1.GetName());
         responseData.RootElement.GetProperty("tokens").GetProperty("accessToken").GetString().ShouldNotBeNullOrEmpty();
+        responseData.RootElement.GetProperty("tokens").GetProperty("refreshToken").GetString().ShouldNotBeNullOrEmpty();
     }
 
     [Theory]

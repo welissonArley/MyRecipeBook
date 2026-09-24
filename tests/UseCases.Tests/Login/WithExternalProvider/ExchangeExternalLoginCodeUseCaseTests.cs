@@ -36,6 +36,7 @@ public class ExchangeExternalLoginCodeUseCaseTests
         result.Name.ShouldBe(user.Name);
         result.Tokens.ShouldNotBeNull();
         result.Tokens.AccessToken.ShouldNotBeNullOrEmpty();
+        result.Tokens.RefreshToken.ShouldNotBeNullOrEmpty();
         result.ImageUrl.ShouldBe(expectedUrl);
     }
 
@@ -92,14 +93,20 @@ public class ExchangeExternalLoginCodeUseCaseTests
             userReadOnlyRepositoryBuilder.GetById(user);
 
         var verificationCodeWriteOnlyRepository = IVerificationCodeWriteOnlyRepositoryBuilder.Build();
+        var refreshTokenWriteOnlyRepository = IRefreshTokenWriteOnlyRepositoryBuilder.Build();
+        var unitOfWork = IUnitOfWorkBuilder.Build();
         var accessTokenGenerator = IAccessTokenGeneratorBuilder.Build();
+        var refreshTokenGenerator = IRefreshTokenGeneratorBuilder.Build();
         var storageService = IStorageServiceBuilder.Build();
 
         return new ExchangeExternalLoginCodeUseCase(
             verificationCodeReadOnlyRepositoryBuilder.Build(),
             userReadOnlyRepositoryBuilder.Build(),
             verificationCodeWriteOnlyRepository,
+            refreshTokenWriteOnlyRepository,
+            unitOfWork,
             accessTokenGenerator,
+            refreshTokenGenerator,
             storageService);
     }
 }
