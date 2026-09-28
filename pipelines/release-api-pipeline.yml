@@ -1,0 +1,43 @@
+trigger:
+  branches:
+    include:
+      - master
+  paths:
+    include:
+      - src/Backend/**
+
+variables:
+  dockerRegistryServiceConnection: '976b4c63-1668-4d51-993a-4318026815e6'
+  imageRepository: 'api_meulivrodereceitas'
+  containerRegistry: 'apimeulivrodereceitas.azurecr.io'
+  dockerfilePath: 'Dockerfile'
+  tag: '$(Build.BuildId)'
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+stages:
+- stage:
+  displayName: Stage Build and push
+  jobs:
+  - job:
+    displayName: Build & Push
+    steps:
+    - task: DownloadSecureFile@1
+      displayName: Download appsettings
+      name: appsettings
+      inputs:
+        secureFile: 'appsettings.Production.json'
+    - script: |
+        cp $(appsettings.secureFilePath) src/Backend/MyRecipeBook.Api/appsettings.Production.json
+    
+    - task: Docker@2
+      displayName: Build and push an image to container registry
+      inputs:
+        command: buildAndPush
+        repository: $(imageRepository)
+        dockerfile: $(dockerfilePath)
+        containerRegistry: $(dockerRegistryServiceConnection)
+        tags: |
+          $(tag)
+          latest
