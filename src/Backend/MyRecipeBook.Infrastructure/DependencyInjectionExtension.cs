@@ -37,6 +37,8 @@ public static class DependencyInjectionExtension
     {
         public void AddInfrastructure(IConfiguration configuration)
         {
+            services.ConfigureHealthChecks();
+
             services.AddRepositories();
 
             services.AddOpenAI(configuration);
@@ -156,6 +158,13 @@ public static class DependencyInjectionExtension
             });
 
             services.AddScoped<IScheduleAccountDeletion, AccountDeletionQueuePublisher>();
+        }
+
+        private void ConfigureHealthChecks()
+        {
+            services
+                .AddHealthChecks()
+                .AddDbContextCheck<MyRecipeBookDbContext>("DbConnection");
         }
     }
 }
