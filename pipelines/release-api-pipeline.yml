@@ -28,6 +28,7 @@ stages:
       name: appsettings
       inputs:
         secureFile: 'appsettings.Production.json'
+    
     - script: |
         cp $(appsettings.secureFilePath) src/Backend/MyRecipeBook.Api/appsettings.Production.json
     
